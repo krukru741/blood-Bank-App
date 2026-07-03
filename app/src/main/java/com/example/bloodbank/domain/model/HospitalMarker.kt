@@ -130,6 +130,7 @@ object MockHospitalData {
 
         // ── Mindanao — Caraga ────────────────────────────────────────────
         HospitalMarker("h87", "Caraga Regional Hospital",                      "Surigao City, Surigao del Norte", 9.784373, 125.490032),
+        HospitalMarker("h87b", "Democrito O. Plaza Memorial Hospital (DOPMH)", "Patin-ay, Prosperidad, Agusan del Sur", 8.546700, 125.942360),
         HospitalMarker("h88", "Butuan City Hospital",                          "Butuan City, Agusan del Norte",  8.944871, 125.543694),
         HospitalMarker("h89", "Tandag City General Hospital",                  "Tandag, Surigao del Sur",        9.068550, 126.190386),
         HospitalMarker("h90", "Bislig City General Hospital",                  "Bislig, Surigao del Sur",        8.215736, 126.319854),
