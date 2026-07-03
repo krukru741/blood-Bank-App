@@ -93,7 +93,31 @@ class HomeFragment : Fragment() {
                 null
             )
         }
+
+        binding.fabFindHospital.setOnClickListener {
+            // Switch to Map view
+            binding.webViewMap.isVisible = true
+            binding.cardLegend.isVisible = true
+            binding.cardRequestPopup.isVisible = false
+            binding.rvListView.isVisible = false
+            // Re-push all markers (hospitals + requests) to ensure they're visible
+            val state = viewModel.uiState.value
+            updateMapMarkers(state.filteredRequests, state.hospitals)
+            // Fly to Philippines center to show all hospital pins
+            binding.webViewMap.evaluateJavascript(
+                "javascript:map.flyTo([12.8797, 121.7740], 6, {animate: true, duration: 1});",
+                null
+            )
+            com.google.android.material.snackbar.Snackbar.make(
+                binding.root,
+                "🏥 Showing hospitals & blood centers near you",
+                com.google.android.material.snackbar.Snackbar.LENGTH_SHORT
+            ).setBackgroundTint(android.graphics.Color.parseColor("#1976D2"))
+             .setTextColor(android.graphics.Color.WHITE)
+             .show()
+        }
     }
+
 
     // ── List View & Filters ───────────────────────────────────────────────────
 
@@ -133,8 +157,15 @@ class HomeFragment : Fragment() {
         binding.webViewMap.apply {
             settings.javaScriptEnabled = true
             settings.domStorageEnabled = true
-            webViewClient = WebViewClient()
             addJavascriptInterface(MapJavascriptInterface(), "Android")
+            webViewClient = object : WebViewClient() {
+                override fun onPageFinished(view: android.webkit.WebView, url: String) {
+                    super.onPageFinished(view, url)
+                    // Push current markers after map.html is fully loaded
+                    val state = viewModel.uiState.value
+                    updateMapMarkers(state.filteredRequests, state.hospitals)
+                }
+            }
             loadUrl("file:///android_asset/map.html")
         }
     }
