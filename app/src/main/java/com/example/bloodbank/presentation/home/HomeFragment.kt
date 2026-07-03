@@ -158,9 +158,9 @@ class HomeFragment : Fragment() {
     private fun showHospitalPopup(hospital: com.example.bloodbank.domain.model.HospitalMarker) {
         binding.cardRequestPopup.isVisible = true
         binding.tvPopupName.text = hospital.name
-        binding.tvPopupRole.text = "Hospital / Blood Center"
-        binding.tvPopupBloodType.text = "🏥"
-        binding.tvPopupLocation.text = hospital.address
+        binding.tvPopupRole.text = "🏥 Hospital / Blood Center"
+        binding.tvPopupBloodType.text = "🩸"
+        binding.tvPopupLocation.text = "${hospital.address}\n📍 Approx. location — tap for directions"
         
         binding.btnPopupAction.text = "Get Directions"
 
