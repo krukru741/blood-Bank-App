@@ -95,19 +95,22 @@ class HomeFragment : Fragment() {
         }
 
         binding.fabFindHospital.setOnClickListener {
-            // Switch to Map view
-            binding.webViewMap.isVisible = true
-            binding.cardLegend.isVisible = true
+            // 1. Switch to Map mode via the toggle group
+            binding.toggleView.check(R.id.btn_map)
+            
+            // 2. Hide any open popups
             binding.cardRequestPopup.isVisible = false
-            binding.rvListView.isVisible = false
-            // Re-push all markers (hospitals + requests) to ensure they're visible
-            val state = viewModel.uiState.value
-            updateMapMarkers(state.filteredRequests, state.hospitals)
-            // Fly to Philippines center to show all hospital pins
+            
+            // 3. Set the filter to HOSPITALS — this will tell the ViewModel to populate the 
+            // `hospitals` list in the state, which triggers updateMapMarkers() automatically
+            viewModel.setFilter(FeedFilter.HOSPITALS)
+            
+            // 4. Fly to Philippines center to show all hospital pins
             binding.webViewMap.evaluateJavascript(
                 "javascript:map.flyTo([12.8797, 121.7740], 6, {animate: true, duration: 1});",
                 null
             )
+            
             com.google.android.material.snackbar.Snackbar.make(
                 binding.root,
                 "🏥 Showing hospitals & blood centers near you",
