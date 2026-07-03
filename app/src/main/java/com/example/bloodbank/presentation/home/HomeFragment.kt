@@ -26,6 +26,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import android.Manifest
+import com.bumptech.glide.Glide
 import android.content.pm.PackageManager
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
@@ -286,11 +287,47 @@ class HomeFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     private fun showHospitalPopup(hospital: com.example.bloodbank.domain.model.HospitalMarker) {
         binding.cardRequestPopup.isVisible = true
+        
+        // Hide request specific fields
+        binding.llPopupBloodType.isVisible = false
+        binding.ivPopupAvatar.isVisible = false // Hide profile for hospitals
+        
+        // Populate Header
         binding.tvPopupName.text = hospital.name
         binding.tvPopupRole.text = "🏥 Hospital / Blood Center"
-        binding.tvPopupBloodType.text = "🩸"
-        binding.tvPopupLocation.text = "${hospital.address}\n📍 Approx. location — tap for directions"
+        binding.tvPopupLocation.text = "${hospital.address}"
         
+        // Hospital Banner Image
+        if (!hospital.imageUrl.isNullOrEmpty()) {
+            binding.ivPopupBanner.isVisible = true
+            Glide.with(requireContext())
+                .load(hospital.imageUrl)
+                .placeholder(R.drawable.ic_menu_hospital)
+                .error(R.drawable.ic_menu_hospital)
+                .centerCrop()
+                .into(binding.ivPopupBanner)
+        } else {
+            binding.ivPopupBanner.isVisible = false
+        }
+        
+        // Contact Info
+        if (!hospital.contactNumber.isNullOrEmpty()) {
+            binding.llPopupContact.isVisible = true
+            binding.tvPopupContact.text = hospital.contactNumber
+        } else {
+            binding.llPopupContact.isVisible = false
+        }
+        
+        // Distance Calculation
+        val userLoc = viewModel.uiState.value.userLocation
+        if (userLoc != null) {
+            val distKm = calculateDistance(userLoc.first, userLoc.second, hospital.latitude, hospital.longitude)
+            binding.llPopupDistance.isVisible = true
+            binding.tvPopupDistance.text = String.format("%.1f km away", distKm)
+        } else {
+            binding.llPopupDistance.isVisible = false
+        }
+
         binding.btnPopupAction.text = "Get Directions"
 
         // Zoom map to the pin
@@ -310,20 +347,37 @@ class HomeFragment : Fragment() {
             if (mapIntent.resolveActivity(requireActivity().packageManager) != null) {
                 startActivity(mapIntent)
             } else {
-                startActivity(android.content.Intent(android.content.Intent.ACTION_VIEW, gmmIntentUri))
+                binding.coordinatorHome.showErrorSnackbar("Google Maps app not found")
             }
+            binding.cardRequestPopup.isVisible = false
         }
+    }
+    
+    private fun calculateDistance(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double {
+        val r = 6371 // Earth's radius in km
+        val dLat = Math.toRadians(lat2 - lat1)
+        val dLon = Math.toRadians(lon2 - lon1)
+        val a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
+                Math.sin(dLon / 2) * Math.sin(dLon / 2)
+        val c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+        return r * c // Distance in km
     }
 
     @SuppressLint("SetTextI18n")
     private fun showRequestPopup(request: com.example.bloodbank.domain.model.BloodRequest) {
         binding.cardRequestPopup.isVisible = true
+        binding.ivPopupBanner.isVisible = false
+        binding.ivPopupAvatar.isVisible = true // Show profile for requests
+        binding.llPopupContact.isVisible = false
+        binding.llPopupDistance.isVisible = false
+        binding.llPopupBloodType.isVisible = true
+        
         binding.tvPopupName.text = request.requesterName
         binding.tvPopupRole.text = "Blood Recipient"
         binding.tvPopupBloodType.text = request.bloodType.label
-        binding.tvPopupLocation.text = request.hospital.ifEmpty { request.location }
+        binding.tvPopupLocation.text = request.location
         
-        // Extract first name for the button
         val firstName = request.requesterName.split(" ").firstOrNull() ?: request.requesterName
         binding.btnPopupAction.text = "Message $firstName"
 

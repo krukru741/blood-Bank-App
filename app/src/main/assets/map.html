@@ -66,10 +66,46 @@
             z-index: 2;
         }
 
-        .donor-pin { background: #4CAF50; }
-        .recipient-pin { background: #E53935; }
-        .hospital-pin { background: #1976D2; }
-        .my-location-pin { background: #9C27B0; } /* Purple for My Location */
+        /* Modern Gradient Pins with Drop Shadows */
+        .donor-pin { 
+            background: linear-gradient(135deg, #00B4DB, #0083B0);
+            box-shadow: 0 4px 10px rgba(0, 131, 176, 0.4);
+        }
+        .donor-pin::after {
+            content: "♥️";
+            color: white;
+            font-size: 14px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .recipient-pin { 
+            background: linear-gradient(135deg, #FF512F, #DD2476);
+            box-shadow: 0 4px 10px rgba(221, 36, 118, 0.4);
+        }
+
+        .hospital-pin { 
+            background: linear-gradient(135deg, #FF5252, #D32F2F);
+            box-shadow: 0 4px 10px rgba(211, 47, 47, 0.4);
+        }
+        .hospital-pin::after {
+            content: "✚"; /* White cross */
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .my-location-pin { 
+            background: linear-gradient(135deg, #9C27B0, #6A1B9A);
+            box-shadow: 0 4px 10px rgba(106, 27, 154, 0.4);
+            border: 2px solid white;
+        }
 
         /* Hide Leaflet attribution on mobile app */
         .leaflet-control-attribution {

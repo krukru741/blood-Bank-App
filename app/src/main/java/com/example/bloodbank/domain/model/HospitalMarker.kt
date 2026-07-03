@@ -5,15 +5,20 @@ data class HospitalMarker(
     val name: String,
     val address: String,
     val latitude: Double,
-    val longitude: Double
+    val longitude: Double,
+    val contactNumber: String? = null,
+    val imageUrl: String? = null
 )
 
 object MockHospitalData {
     val hospitals: List<HospitalMarker> = listOf(
         // ── NCR ──────────────────────────────────────────────────────────
         HospitalMarker("h1",  "Philippine Red Cross - National Blood Center",  "Port Area, Manila",            14.5891, 120.9760),
-        HospitalMarker("h2",  "Philippine General Hospital",                   "Taft Ave, Ermita, Manila",     14.5794, 120.9841),
-        HospitalMarker("h3",  "Makati Medical Center",                         "Amorsolo St, Legaspi Village", 14.5578, 121.0131),
+        HospitalMarker("h2",  "Philippine General Hospital",                   "Taft Ave, Ermita, Manila",     14.5794, 120.9841,
+            contactNumber = "(02) 8554 8400",
+            imageUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Philippine_General_Hospital_%28PGH%29_Administration_Building_facade.jpg/800px-Philippine_General_Hospital_%28PGH%29_Administration_Building_facade.jpg"
+        ),
+        HospitalMarker("h3",  "Lung Center of the Philippines",                "Quezon Ave, Quezon City",      14.6471, 121.0470),
         HospitalMarker("h4",  "St. Luke's Medical Center QC",                  "E Rodriguez Sr Ave, QC",       14.6234, 121.0247),
         HospitalMarker("h5",  "Quirino Memorial Medical Center",               "Project 4, Quezon City",       14.6390, 121.0744),
         HospitalMarker("h6",  "The Medical City",                              "Ortigas Ave, Pasig City",      14.5877, 121.0703),
@@ -130,7 +135,10 @@ object MockHospitalData {
 
         // ── Mindanao — Caraga ────────────────────────────────────────────
         HospitalMarker("h87", "Caraga Regional Hospital",                      "Surigao City, Surigao del Norte", 9.784373, 125.490032),
-        HospitalMarker("h87b", "Democrito O. Plaza Memorial Hospital (DOPMH)", "Patin-ay, Prosperidad, Agusan del Sur", 8.546700, 125.942360),
+        HospitalMarker("h87b", "Democrito O. Plaza Memorial Hospital (DOPMH)", "Patin-ay, Prosperidad, Agusan del Sur", 8.546700, 125.942360,
+            contactNumber = "0920-845-6925",
+            imageUrl = "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=600&auto=format&fit=crop" // Generic modern hospital fallback
+        ),
         HospitalMarker("h88", "Butuan City Hospital",                          "Butuan City, Agusan del Norte",  8.944871, 125.543694),
         HospitalMarker("h89", "Tandag City General Hospital",                  "Tandag, Surigao del Sur",        9.068550, 126.190386),
         HospitalMarker("h90", "Bislig City General Hospital",                  "Bislig, Surigao del Sur",        8.215736, 126.319854),
