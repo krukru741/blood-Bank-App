@@ -1,11 +1,11 @@
 package com.example.bloodbank.domain.model
 
 data class HospitalMarker(
-    val id: String,
-    val name: String,
-    val address: String,
-    val latitude: Double,
-    val longitude: Double,
+    val id: String = "",
+    val name: String = "",
+    val address: String = "",
+    val latitude: Double = 0.0,
+    val longitude: Double = 0.0,
     val contactNumber: String? = null,
     val imageUrl: String? = null
 )

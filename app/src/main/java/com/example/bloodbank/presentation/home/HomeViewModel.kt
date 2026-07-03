@@ -9,13 +9,13 @@ import com.example.bloodbank.domain.model.UrgencyLevel
 import com.example.bloodbank.domain.repository.AuthRepository
 import com.example.bloodbank.domain.repository.BloodRequestRepository
 import com.example.bloodbank.domain.repository.UserRepository
+import com.example.bloodbank.domain.repository.HospitalRepository
 import com.example.bloodbank.domain.model.UserRole
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import com.example.bloodbank.domain.model.HospitalMarker
-import com.example.bloodbank.domain.model.MockHospitalData
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -36,6 +36,7 @@ data class HomeUiState(
     val currentUserBloodType: BloodType?    = null,
     val isRecipient: Boolean                = false,
     val error: String?                      = null,
+    val allHospitals: List<HospitalMarker>  = emptyList(),
     val hospitals: List<HospitalMarker>     = emptyList(),
     val userLocation: Pair<Double, Double>? = null
 )
@@ -51,7 +52,8 @@ data class HomeUiState(
 class HomeViewModel @Inject constructor(
     private val bloodRequestRepository: BloodRequestRepository,
     private val authRepository: AuthRepository,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val hospitalRepository: HospitalRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(HomeUiState())
@@ -60,6 +62,7 @@ class HomeViewModel @Inject constructor(
     init {
         observeUser()
         observeRequests()
+        observeHospitals()
     }
 
     private fun observeUser() {
@@ -130,8 +133,24 @@ class HomeViewModel @Inject constructor(
             }
             FeedFilter.HOSPITALS -> emptyList()
         }
-        val activeHospitals = if (activeFilter == FeedFilter.HOSPITALS) MockHospitalData.hospitals else emptyList()
+        val activeHospitals = if (activeFilter == FeedFilter.HOSPITALS) allHospitals else emptyList()
         return copy(filteredRequests = filtered, hospitals = activeHospitals)
+    }
+
+    private fun observeHospitals() {
+        viewModelScope.launch {
+            hospitalRepository.getHospitals().collect { resource ->
+                when (resource) {
+                    is Resource.Success -> {
+                        _uiState.update { it.copy(allHospitals = resource.data).applyFilter() }
+                    }
+                    is Resource.Error -> {
+                        _uiState.update { it.copy(error = resource.error.message) }
+                    }
+                    else -> {}
+                }
+            }
+        }
     }
 
     /** Mock updating user location */

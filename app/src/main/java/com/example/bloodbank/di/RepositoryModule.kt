@@ -10,6 +10,8 @@ import com.example.bloodbank.domain.repository.BloodRequestRepository
 import com.example.bloodbank.domain.repository.ChatRepository
 import com.example.bloodbank.domain.repository.DonorRepository
 import com.example.bloodbank.domain.repository.UserRepository
+import com.example.bloodbank.data.repository.HospitalRepositoryImpl
+import com.example.bloodbank.domain.repository.HospitalRepository
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -45,6 +47,12 @@ abstract class RepositoryModule {
     abstract fun bindUserRepository(
         impl: UserRepositoryImpl
     ): UserRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindHospitalRepository(
+        impl: HospitalRepositoryImpl
+    ): HospitalRepository
 
     // ── Donor ─────────────────────────────────────────────────────────────────
     @Binds
