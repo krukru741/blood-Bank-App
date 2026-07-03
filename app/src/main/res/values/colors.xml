@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ── Brand Colors ───────────────────────────────────────────────────── -->
+    <color name="blood_red">#C62828</color>       <!-- Primary — deep medical red   -->
+    <color name="blood_red_dark">#8E0000</color>  <!-- Darker variant for status bar  -->
+    <color name="blood_red_light">#FF5F52</color> <!-- Lighter variant for highlights -->
+    <color name="accent_coral">#FF6F61</color>    <!-- Secondary accent               -->
+
+    <!-- ── Neutral / Backgrounds ─────────────────────────────────────────── -->
+    <color name="white">#FFFFFF</color>
+    <color name="off_white">#FAFAFA</color>
+    <color name="surface">#F5F5F5</color>
+    <color name="on_surface">#212121</color>
+    <color name="gray_text">#757575</color>
+
+    <!-- ── Semantic / Status Colors ──────────────────────────────────────── -->
+    <color name="success_green">#2E7D32</color>
+    <color name="warning_amber">#F9A825</color>
+    <color name="error_red">#B00020</color>
+    <color name="info_blue">#1565C0</color>
+
+    <!-- ── Urgency Indicators ─────────────────────────────────────────────── -->
+    <color name="urgency_critical">#FF1744</color>
+    <color name="urgency_urgent">#FF9100</color>
+    <color name="urgency_normal">#00C853</color>
+</resources>

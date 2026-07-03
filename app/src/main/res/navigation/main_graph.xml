@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_graph"
+    app:startDestination="@id/homeFragment">
+
+    <!-- ── Home — Blood Request Feed ─────────────────────────────────────── -->
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.bloodbank.presentation.home.HomeFragment"
+        android:label="Home"
+        tools:layout="@layout/fragment_home">
+
+        <!-- Navigate to Create Request (from FAB) -->
+        <action
+            android:id="@+id/action_home_to_create_request"
+            app:destination="@id/createRequestFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <!-- Navigate to Become Donor (from FAB) -->
+        <action
+            android:id="@+id/action_home_to_become_donor"
+            app:destination="@id/becomeDonorFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <!-- Navigate to Request Detail -->
+        <action
+            android:id="@+id/action_home_to_request_detail"
+            app:destination="@id/requestDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <!-- ── My Requests ────────────────────────────────────────────────────── -->
+    <fragment
+        android:id="@+id/myRequestsFragment"
+        android:name="com.example.bloodbank.presentation.request.MyRequestsFragment"
+        android:label="My Requests"
+        tools:layout="@layout/fragment_my_requests">
+
+        <action
+            android:id="@+id/action_my_requests_to_create"
+            app:destination="@id/createRequestFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/action_my_requests_to_request_detail"
+            app:destination="@id/requestDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <!-- ── Activity / Donations ─────────────────────────────────────────────── -->
+    <fragment
+        android:id="@+id/activityFragment"
+        android:name="com.example.bloodbank.presentation.respond.ActivityFragment"
+        android:label="Activity"
+        tools:layout="@layout/fragment_activity">
+        <action
+            android:id="@+id/action_activity_to_become_donor"
+            app:destination="@id/becomeDonorFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <!-- ── Profile ────────────────────────────────────────────────────────── -->
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.bloodbank.presentation.profile.ProfileFragment"
+        android:label="Profile"
+        tools:layout="@layout/fragment_profile">
+        <action
+            android:id="@+id/action_profile_to_edit_profile"
+            app:destination="@id/editProfileFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_profile_to_become_donor"
+            app:destination="@id/becomeDonorFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <!-- ── Edit Profile ─────────────────────────────────────────────────────── -->
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.example.bloodbank.presentation.profile.EditProfileFragment"
+        android:label="Edit Profile"
+        tools:layout="@layout/fragment_edit_profile" />
+
+    <!-- ── Create Request (full-screen, not in bottom nav) ───────────────── -->
+    <fragment
+        android:id="@+id/createRequestFragment"
+        android:name="com.example.bloodbank.presentation.request.CreateRequestFragment"
+        android:label="New Blood Request"
+        tools:layout="@layout/fragment_create_request" />
+
+    <!-- ── Become Donor (full-screen) ───────────────── -->
+    <fragment
+        android:id="@+id/becomeDonorFragment"
+        android:name="com.example.bloodbank.presentation.profile.BecomeDonorFragment"
+        android:label="Become a Donor"
+        tools:layout="@layout/fragment_become_donor" />
+
+    <!-- ── Request Detail (full-screen, not in bottom nav) ───────────────── -->
+    <fragment
+        android:id="@+id/requestDetailFragment"
+        android:name="com.example.bloodbank.presentation.request.RequestDetailFragment"
+        android:label="Request Detail"
+        tools:layout="@layout/fragment_request_detail">
+        <argument
+            android:name="requestId"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_request_detail_to_edit_request"
+            app:destination="@id/editRequestFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <!-- ── Edit Request (full-screen, not in bottom nav) ───────────────── -->
+    <fragment
+        android:id="@+id/editRequestFragment"
+        android:name="com.example.bloodbank.presentation.request.EditRequestFragment"
+        android:label="Edit Blood Request"
+        tools:layout="@layout/fragment_edit_request">
+        <argument
+            android:name="requestId"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.bloodbank.presentation.more.SettingsFragment"
+        android:label="Settings"
+        tools:layout="@layout/fragment_settings" />
+
+    <fragment
+        android:id="@+id/eligibilityFragment"
+        android:name="com.example.bloodbank.presentation.more.EligibilityFragment"
+        android:label="Eligibility Checklist"
+        tools:layout="@layout/fragment_eligibility" />
+
+</navigation>

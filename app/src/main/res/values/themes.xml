@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--
+        BloodBank Theme — Material 3 (Material You) base theme.
+        Colors are intentionally minimal here; your colorPrimary / colorSurface
+        should come from your brand palette (red tones for blood bank branding).
+
+        Full color palette will be added in Step 2 when we implement the UI.
+    -->
+
+    <!-- Base application theme -->
+    <style name="Theme.BloodBank" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/blood_red</item>
+        <item name="colorPrimaryVariant">@color/blood_red_dark</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/accent_coral</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="android:statusBarColor">@color/blood_red</item>
+    </style>
+
+    <!-- Splash screen theme — shown during cold start -->
+    <style name="Theme.BloodBank.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/blood_red</item>
+        <item name="windowSplashScreenAnimatedIcon">@android:color/transparent</item>
+        <item name="postSplashScreenTheme">@style/Theme.BloodBank</item>
+    </style>
+
+    <!-- Circle shape for profile avatar ShapeableImageView -->
+    <style name="ShapeAppearance.App.CircleImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+</resources>

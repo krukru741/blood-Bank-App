@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "266867050444",
+    "firebase_url": "https://bloodapp-5dc10-default-rtdb.firebaseio.com",
+    "project_id": "bloodapp-5dc10",
+    "storage_bucket": "bloodapp-5dc10.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:266867050444:android:f334881ceb6b2f0a763f69",
+        "android_client_info": {
+          "package_name": "com.example.blood"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "266867050444-p93dm2adak9pafusu28kuvavqivqjlmg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.blood",
+            "certificate_hash": "a93206cd6e5b1323f48f6fdca87a741739858b52"
+          }
+        },
+        {
+          "client_id": "266867050444-5n2qjoqg39d7g0ivad441bpd2ko6aime.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDaHvTB0wMkm9oghJ4GQxq1yebSgtPz7YE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "266867050444-5n2qjoqg39d7g0ivad441bpd2ko6aime.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

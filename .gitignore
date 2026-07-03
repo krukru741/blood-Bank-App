@@ -1,0 +1,32 @@
+# Built artifacts
+*.apk
+*.aar
+*.ap_
+*.aab
+
+# Files for the ART/Dalvik runtime
+*.dex
+
+# Gradle
+.gradle/
+build/
+**/build/
+local.properties
+
+# Android Studio / IntelliJ
+.idea/
+*.iml
+*.iws
+.DS_Store
+
+# Firebase — NEVER commit google-services.json with real keys to a public repo
+# Uncomment the line below if this is a public repository:
+# google-services.json
+
+# Kotlin
+*.class
+*.kotlin_module
+
+# Log files
+*.log
+build_log.txt

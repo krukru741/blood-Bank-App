@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BloodBank</string>
+    <string name="app_tagline">Connecting Donors, Saving Lives</string>
+
+    <!-- Auth -->
+    <string name="label_email">Email Address</string>
+    <string name="label_password">Password</string>
+    <string name="label_confirm_password">Confirm Password</string>
+    <string name="label_full_name">Full Name</string>
+    <string name="label_phone_number">Phone Number</string>
+    <string name="btn_login">Log In</string>
+    <string name="btn_register">Create Account</string>
+    <string name="btn_forgot_password">Forgot Password?</string>
+    <string name="btn_send_reset_link">Send Reset Link</string>
+
+    <!-- Common Registration Fields -->
+    <string name="label_blood_type">Blood Type</string>
+    <string name="label_city">City / Municipality</string>
+    <string name="hint_city">e.g. Barobo, Surigao del Sur</string>
+
+    <!-- Donor Fields -->
+    <string name="section_donor_info">🩸 Donor Health Information</string>
+    <string name="label_gender">Gender / Kasarian</string>
+    <string name="label_date_of_birth">Date of Birth</string>
+    <string name="hint_date_of_birth">Tap to select date</string>
+    <string name="label_weight_kg">Weight (kg)</string>
+    <string name="hint_weight">Min. 50 kg required to donate</string>
+    <string name="label_last_donation">Last Donation Date (Optional)</string>
+    <string name="hint_last_donation">Tap to select — leave blank if first time</string>
+
+    <!-- Recipient Fields -->
+    <string name="section_recipient_info">🏥 Hospital / Patient Information</string>
+    <string name="label_hospital_name">Hospital Name</string>
+    <string name="hint_hospital_name">e.g. Surigao del Sur Provincial Hospital</string>
+    <string name="label_hospital_address">Hospital Address / Location</string>
+    <string name="hint_hospital_address">Barangay, Municipality, Province</string>
+
+    <!-- General -->
+    <string name="btn_submit">Submit</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="btn_save">Save</string>
+    <string name="btn_logout">Log Out</string>
+    <string name="label_loading">Loading…</string>
+    <string name="error_network">No internet connection. Please check your network.</string>
+    <string name="error_unknown">Something went wrong. Please try again.</string>
+
+    <!-- Social Auth Placeholders (Replace these with actual keys) -->
+    <string name="default_web_client_id" translatable="false">266867050444-5n2qjoqg39d7g0ivad441bpd2ko6aime.apps.googleusercontent.com</string>
+    <string name="facebook_app_id" translatable="false">1576106207428696</string>
+    <string name="facebook_client_token" translatable="false">ca34e8ef3258d48a43557ffce99336e1</string>
+    <string name="fb_login_protocol_scheme" translatable="false">fb1576106207428696</string>
+</resources>

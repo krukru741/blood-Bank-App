@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>BloodMap</title>
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        html,
+        body,
+        #map {
+            height: 100%;
+            width: 100vw;
+        }
+
+        /* Custom markers styling */
+        .custom-div-icon {
+            background: transparent;
+            border: none;
+        }
+
+        .marker-pin {
+            width: 30px;
+            height: 30px;
+            border-radius: 50% 50% 50% 0;
+            position: absolute;
+            transform: rotate(-45deg);
+            left: 50%;
+            top: 50%;
+            margin: -15px 0 0 -15px;
+            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
+            border: 2px solid white;
+        }
+
+        .marker-pin::after {
+            content: '';
+            width: 14px;
+            height: 14px;
+            margin: 8px 0 0 8px;
+            background: white;
+            position: absolute;
+            border-radius: 50%;
+        }
+
+        /* A little drop inside the white circle */
+        .marker-pin-drop {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: #B71C1C;
+            border-radius: 50% 50% 50% 0;
+            transform: rotate(-45deg);
+            left: 50%;
+            top: 50%;
+            margin: -3px 0 0 -3px;
+            z-index: 2;
+        }
+
+        .donor-pin { background: #4CAF50; }
+        .recipient-pin { background: #E53935; }
+        .hospital-pin { background: #1976D2; }
+
+        /* Hide Leaflet attribution on mobile app */
+        .leaflet-control-attribution {
+            display: none !important;
+        }
+
+        /* ── Map Mode Switcher ─────────────────────────────────────────── */
+        #map-mode-btn {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            z-index: 1000;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.6);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 20px;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        #map-mode-btn:active {
+            transform: scale(0.93);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        #map-mode-panel {
+            position: absolute;
+            top: 68px;
+            right: 16px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255,255,255,0.7);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+            border-radius: 14px;
+            overflow: hidden;
+            display: none;
+            min-width: 160px;
+            animation: fadeSlideIn 0.18s ease;
+        }
+
+        @keyframes fadeSlideIn {
+            from { opacity: 0; transform: translateY(-8px) scale(0.97); }
+            to   { opacity: 1; transform: translateY(0)    scale(1);    }
+        }
+
+        .map-mode-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: background 0.12s ease;
+            font-size: 14px;
+            font-weight: 500;
+            color: #1a1a1a;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .map-mode-option:last-child { border-bottom: none; }
+
+        .map-mode-option:hover { background: rgba(0,0,0,0.05); }
+
+        .map-mode-option.active {
+            color: #C62828;
+            font-weight: 700;
+        }
+
+        .map-mode-option .mode-icon {
+            font-size: 18px;
+            width: 24px;
+            text-align: center;
+        }
+
+        .mode-check {
+            margin-left: auto;
+            font-size: 14px;
+            color: #C62828;
+            opacity: 0;
+        }
+
+        .map-mode-option.active .mode-check { opacity: 1; }
+    </style>
+</head>
+
+<body>
+    <div id="map"></div>
+
+    <!-- Map Mode Toggle Button -->
+    <div id="map-mode-btn" onclick="toggleModePanel()">🗺️</div>
+
+    <!-- Map Mode Panel -->
+    <div id="map-mode-panel">
+        <div class="map-mode-option active" id="opt-standard" onclick="switchMode('standard')">
+            <span class="mode-icon">🗺️</span>
+            <span>Standard</span>
+            <span class="mode-check">✓</span>
+        </div>
+        <div class="map-mode-option" id="opt-satellite" onclick="switchMode('satellite')">
+            <span class="mode-icon">🛰️</span>
+            <span>Satellite</span>
+            <span class="mode-check">✓</span>
+        </div>
+        <div class="map-mode-option" id="opt-dark" onclick="switchMode('dark')">
+            <span class="mode-icon">🌃</span>
+            <span>Dark</span>
+            <span class="mode-check">✓</span>
+        </div>
+    </div>
+
+    <script>
+        // Initialize map centered on Philippines
+        var map = L.map('map', {
+            zoomControl: false
+        }).setView([12.8797, 121.7740], 6);
+
+        L.control.zoom({
+            position: 'bottomleft'
+        }).addTo(map);
+
+        // ── Tile Layers ────────────────────────────────────────────────
+        var tileLayers = {
+            standard: L.tileLayer(
+                'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',
+                { maxZoom: 19, attribution: 'Tiles &copy; Esri' }
+            ),
+            satellite: L.tileLayer(
+                'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+                { maxZoom: 19, attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community' }
+            ),
+            dark: L.tileLayer(
+                'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
+                { maxZoom: 19, attribution: '&copy; OpenStreetMap contributors &copy; CARTO' }
+            )
+        };
+
+        // Mode icons for the button
+        var modeIcons = { standard: '🗺️', satellite: '🛰️', dark: '🌃' };
+
+        // Load saved mode or default to standard
+        var currentMode = localStorage.getItem('mapMode') || 'standard';
+        var currentLayer = tileLayers[currentMode];
+        currentLayer.addTo(map);
+        applyModeUI(currentMode);
+
+        // ── Mode Switcher Logic ────────────────────────────────────────
+        function toggleModePanel() {
+            var panel = document.getElementById('map-mode-panel');
+            panel.style.display = (panel.style.display === 'block') ? 'none' : 'block';
+        }
+
+        function switchMode(mode) {
+            if (mode === currentMode) {
+                document.getElementById('map-mode-panel').style.display = 'none';
+                return;
+            }
+            // Remove old layer
+            map.removeLayer(currentLayer);
+            // Add new layer
+            currentLayer = tileLayers[mode];
+            currentLayer.addTo(map);
+            currentMode = mode;
+            // Save preference
+            localStorage.setItem('mapMode', mode);
+            // Update UI
+            applyModeUI(mode);
+            document.getElementById('map-mode-panel').style.display = 'none';
+        }
+
+        function applyModeUI(mode) {
+            // Update button icon
+            document.getElementById('map-mode-btn').innerText = modeIcons[mode];
+            // Update dark panel bg for dark mode
+            var panel = document.getElementById('map-mode-panel');
+            if (mode === 'dark') {
+                panel.style.background = 'rgba(30, 30, 30, 0.92)';
+                panel.style.borderColor = 'rgba(255,255,255,0.12)';
+                document.querySelectorAll('.map-mode-option').forEach(function(el) {
+                    el.style.color = '#f0f0f0';
+                    el.style.borderBottomColor = 'rgba(255,255,255,0.08)';
+                });
+            } else {
+                panel.style.background = 'rgba(255,255,255,0.92)';
+                panel.style.borderColor = 'rgba(255,255,255,0.7)';
+                document.querySelectorAll('.map-mode-option').forEach(function(el) {
+                    el.style.color = '#1a1a1a';
+                    el.style.borderBottomColor = 'rgba(0,0,0,0.06)';
+                });
+            }
+            // Update active state
+            ['standard', 'satellite', 'dark'].forEach(function(m) {
+                var el = document.getElementById('opt-' + m);
+                if (m === mode) el.classList.add('active');
+                else el.classList.remove('active');
+            });
+        }
+
+        // Close panel when tapping elsewhere on the map
+        map.on('click', function(e) {
+            document.getElementById('map-mode-panel').style.display = 'none';
+
+            if (!pickerMode) return;
+            var lat = e.latlng.lat;
+            var lng = e.latlng.lng;
+            if (pickerMarker) { map.removeLayer(pickerMarker); }
+            pickerMarker = L.marker([lat, lng], { icon: createIcon('RECIPIENT') }).addTo(map);
+            if (window.Android && window.Android.onLocationPicked) {
+                window.Android.onLocationPicked(lat, lng);
+            }
+        });
+
+        // ── Markers ─────────────────────────────────────────────────────
+        var markers = [];
+
+        function createIcon(type) {
+            var bgClass = 'recipient-pin';
+            if (type === 'DONOR') bgClass = 'donor-pin';
+            else if (type === 'HOSPITAL') bgClass = 'hospital-pin';
+            return L.divIcon({
+                className: 'custom-div-icon',
+                html: "<div class='marker-pin " + bgClass + "'></div><div class='marker-pin-drop'></div>",
+                iconSize: [30, 42],
+                iconAnchor: [15, 42]
+            });
+        }
+
+        function updateMarkers(jsonStr) {
+            markers.forEach(function(m) { map.removeLayer(m); });
+            markers = [];
+            try {
+                var data = JSON.parse(jsonStr);
+                data.forEach(function(item) {
+                    if (item.lat && item.lng) {
+                        var marker = L.marker([item.lat, item.lng], { icon: createIcon(item.type) }).addTo(map);
+                        marker.on('click', function() {
+                            if (window.Android) { window.Android.onMarkerClick(item.id); }
+                        });
+                        markers.push(marker);
+                    }
+                });
+            } catch (e) {
+                console.error("Error parsing markers json", e);
+            }
+        }
+
+        // ── Picker Mode ──────────────────────────────────────────────────
+        var pickerMode = false;
+        var pickerMarker = null;
+
+        function enablePickerMode() {
+            pickerMode = true;
+            markers.forEach(function(m) { map.removeLayer(m); });
+            markers = [];
+        }
+    </script>
+</body>
+
+</html>
