@@ -36,7 +36,8 @@ data class HomeUiState(
     val currentUserBloodType: BloodType?    = null,
     val isRecipient: Boolean                = false,
     val error: String?                      = null,
-    val hospitals: List<HospitalMarker>     = emptyList()
+    val hospitals: List<HospitalMarker>     = emptyList(),
+    val userLocation: Pair<Double, Double>? = null
 )
 
 /**
@@ -131,5 +132,10 @@ class HomeViewModel @Inject constructor(
         }
         val activeHospitals = if (activeFilter == FeedFilter.HOSPITALS) MockHospitalData.hospitals else emptyList()
         return copy(filteredRequests = filtered, hospitals = activeHospitals)
+    }
+
+    /** Mock updating user location */
+    fun updateUserLocation(lat: Double, lng: Double) {
+        _uiState.update { it.copy(userLocation = Pair(lat, lng)) }
     }
 }

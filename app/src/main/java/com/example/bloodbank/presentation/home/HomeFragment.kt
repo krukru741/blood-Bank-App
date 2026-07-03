@@ -25,6 +25,12 @@ import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import android.Manifest
+import android.content.pm.PackageManager
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.Priority
 
 /**
  * HomeFragment — Blood Request Feed (Map View Only)
@@ -39,6 +45,20 @@ class HomeFragment : Fragment() {
     private lateinit var adapter: BloodRequestAdapter
 
     @Inject lateinit var authRepository: AuthRepository
+
+    private val locationPermissionRequest = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissions ->
+        when {
+            permissions.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false) ||
+            permissions.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false) -> {
+                fetchCurrentLocation()
+            }
+            else -> {
+                binding.coordinatorHome.showErrorSnackbar("Location permission denied. Using default map view.")
+            }
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -87,11 +107,19 @@ class HomeFragment : Fragment() {
         }
 
         binding.fabMyLocation.setOnClickListener {
-            // Zoom out to center of Philippines for now
-            binding.webViewMap.evaluateJavascript(
-                "javascript:map.flyTo([12.8797, 121.7740], 6, {animate: true});",
-                null
-            )
+            val hasFine = ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+            val hasCoarse = ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
+            
+            if (hasFine || hasCoarse) {
+                // Permission already granted, fetch location
+                fetchCurrentLocation()
+            } else {
+                // Request permissions
+                locationPermissionRequest.launch(arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ))
+            }
         }
 
         binding.fabFindHospital.setOnClickListener {
@@ -101,15 +129,22 @@ class HomeFragment : Fragment() {
             // 2. Hide any open popups
             binding.cardRequestPopup.isVisible = false
             
-            // 3. Set the filter to HOSPITALS — this will tell the ViewModel to populate the 
-            // `hospitals` list in the state, which triggers updateMapMarkers() automatically
+            // 3. Set the filter to HOSPITALS
             viewModel.setFilter(FeedFilter.HOSPITALS)
             
-            // 4. Fly to Philippines center to show all hospital pins
-            binding.webViewMap.evaluateJavascript(
-                "javascript:map.flyTo([12.8797, 121.7740], 6, {animate: true, duration: 1});",
-                null
-            )
+            // 4. Fly to user's saved location if available, otherwise zoom out to whole country
+            val userLoc = viewModel.uiState.value.userLocation
+            if (userLoc != null) {
+                binding.webViewMap.evaluateJavascript(
+                    "javascript:map.flyTo([${userLoc.first}, ${userLoc.second}], 12, {animate: true, duration: 1});",
+                    null
+                )
+            } else {
+                binding.webViewMap.evaluateJavascript(
+                    "javascript:map.flyTo([12.8797, 121.7740], 6, {animate: true, duration: 1});",
+                    null
+                )
+            }
             
             com.google.android.material.snackbar.Snackbar.make(
                 binding.root,
@@ -153,6 +188,36 @@ class HomeFragment : Fragment() {
         }
     }
 
+    @SuppressLint("MissingPermission")
+    private fun fetchCurrentLocation() {
+        com.google.android.material.snackbar.Snackbar.make(binding.root, "📍 Fetching location...", com.google.android.material.snackbar.Snackbar.LENGTH_SHORT).show()
+        val fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+        fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
+            .addOnSuccessListener { location ->
+                if (location != null) {
+                    val myLat = location.latitude
+                    val myLng = location.longitude
+                    
+                    viewModel.updateUserLocation(myLat, myLng)
+                    binding.toggleView.check(R.id.btn_map)
+                    
+                    binding.webViewMap.evaluateJavascript(
+                        "javascript:map.flyTo([$myLat, $myLng], 14, {animate: true});", null
+                    )
+                    
+                    com.google.android.material.snackbar.Snackbar.make(
+                        binding.root, "📍 Location saved & updated",
+                        com.google.android.material.snackbar.Snackbar.LENGTH_SHORT
+                    ).show()
+                } else {
+                    binding.coordinatorHome.showErrorSnackbar("Could not detect current location.")
+                }
+            }
+            .addOnFailureListener {
+                binding.coordinatorHome.showErrorSnackbar("Error fetching location.")
+            }
+    }
+
     // ── Map Setup ──────────────────────────────────────────────────────────────
     
     @SuppressLint("SetJavaScriptEnabled")
@@ -177,7 +242,9 @@ class HomeFragment : Fragment() {
         @JavascriptInterface
         fun onMarkerClick(id: String) {
             requireActivity().runOnUiThread {
-                if (id.startsWith("h")) {
+                if (id == "my_loc") {
+                    showMyLocationPopup()
+                } else if (id.startsWith("h")) {
                     val hospital = viewModel.uiState.value.hospitals.find { it.id == id }
                     if (hospital != null) showHospitalPopup(hospital)
                 } else {
@@ -185,6 +252,34 @@ class HomeFragment : Fragment() {
                     if (request != null) showRequestPopup(request)
                 }
             }
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun showMyLocationPopup() {
+        binding.cardRequestPopup.isVisible = true
+        binding.tvPopupName.text = "You are here"
+        binding.tvPopupRole.text = "Current Location"
+        binding.tvPopupBloodType.text = "📍"
+        binding.tvPopupLocation.text = "Your detected GPS location."
+        
+        binding.btnPopupAction.text = "Search Nearby Hospitals"
+        
+        val userLoc = viewModel.uiState.value.userLocation
+        if (userLoc != null) {
+            binding.webViewMap.evaluateJavascript(
+                "javascript:map.flyTo([${userLoc.first}, ${userLoc.second}], 14, {animate: true});", null
+            )
+        }
+
+        binding.btnPopupClose.setOnClickListener {
+            binding.cardRequestPopup.isVisible = false
+        }
+
+        binding.btnPopupAction.setOnClickListener {
+            binding.cardRequestPopup.isVisible = false
+            // Act like the Find Hospital FAB was clicked
+            binding.fabFindHospital.performClick()
         }
     }
 
@@ -301,6 +396,15 @@ class HomeFragment : Fragment() {
                 put("lat", hosp.latitude)
                 put("lng", hosp.longitude)
                 put("type", "HOSPITAL")
+            })
+        }
+        val userLoc = viewModel.uiState.value.userLocation
+        if (userLoc != null) {
+            jsonArray.put(JSONObject().apply {
+                put("id", "my_loc")
+                put("lat", userLoc.first)
+                put("lng", userLoc.second)
+                put("type", "MY_LOCATION")
             })
         }
         // Use loadUrl so the raw JSON array is passed directly — no string-escaping issues

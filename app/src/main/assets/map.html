@@ -69,6 +69,7 @@
         .donor-pin { background: #4CAF50; }
         .recipient-pin { background: #E53935; }
         .hospital-pin { background: #1976D2; }
+        .my-location-pin { background: #9C27B0; } /* Purple for My Location */
 
         /* Hide Leaflet attribution on mobile app */
         .leaflet-control-attribution {
@@ -296,6 +297,7 @@
             var bgClass = 'recipient-pin';
             if (type === 'DONOR') bgClass = 'donor-pin';
             else if (type === 'HOSPITAL') bgClass = 'hospital-pin';
+            else if (type === 'MY_LOCATION') bgClass = 'my-location-pin';
             return L.divIcon({
                 className: 'custom-div-icon',
                 html: "<div class='marker-pin " + bgClass + "'></div><div class='marker-pin-drop'></div>",
