@@ -277,29 +277,32 @@ class HomeFragment : Fragment() {
         adapter.submitList(state.filteredRequests)
     }
 
-    private fun updateMapMarkers(requests: List<com.example.bloodbank.domain.model.BloodRequest>, hospitals: List<com.example.bloodbank.domain.model.HospitalMarker>) {
+    private fun updateMapMarkers(
+        requests: List<com.example.bloodbank.domain.model.BloodRequest>,
+        hospitals: List<com.example.bloodbank.domain.model.HospitalMarker>
+    ) {
         val jsonArray = JSONArray()
         requests.forEach { req ->
             if (req.latitude != null && req.longitude != null) {
-                val obj = JSONObject().apply {
+                jsonArray.put(JSONObject().apply {
                     put("id", req.requestId)
                     put("lat", req.latitude)
                     put("lng", req.longitude)
                     put("type", "RECIPIENT")
-                }
-                jsonArray.put(obj)
+                })
             }
         }
         hospitals.forEach { hosp ->
-            val obj = JSONObject().apply {
+            jsonArray.put(JSONObject().apply {
                 put("id", hosp.id)
                 put("lat", hosp.latitude)
                 put("lng", hosp.longitude)
                 put("type", "HOSPITAL")
-            }
-            jsonArray.put(obj)
+            })
         }
-        val jsonStr = jsonArray.toString().replace("'", "\\'")
-        binding.webViewMap.evaluateJavascript("javascript:updateMarkers('$jsonStr')", null)
+        // Use loadUrl so the raw JSON array is passed directly — no string-escaping issues
+        binding.webViewMap.post {
+            binding.webViewMap.loadUrl("javascript:updateMarkers($jsonArray)")
+        }
     }
 }
