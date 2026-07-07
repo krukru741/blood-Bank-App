@@ -29,8 +29,7 @@ import java.util.concurrent.TimeUnit
  * - Respond/View button callback
  */
 class BloodRequestAdapter(
-    private val onRespondClick: (BloodRequest) -> Unit,
-    private val onCardClick: (BloodRequest) -> Unit
+    private val onRespondClick: (BloodRequest) -> Unit
 ) : ListAdapter<BloodRequest, BloodRequestAdapter.ViewHolder>(DIFF_CALLBACK) {
 
     inner class ViewHolder(
@@ -79,7 +78,6 @@ class BloodRequestAdapter(
 
                 // ── Click listeners ────────────────────────────────────────
                 btnRespond.setOnClickListener { onRespondClick(request) }
-                cardBloodRequest.setOnClickListener { onCardClick(request) }
             }
         }
     }

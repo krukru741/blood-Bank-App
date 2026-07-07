@@ -94,6 +94,8 @@ data class User(
     val weightKg: Float?        = null,   // must be ≥ 50 kg
     val lastDonationDate: Long? = null,   // epoch ms; null = first-time donor
     val isAvailableToDonate: Boolean = true, // Toggle for donor availability
+    val donorId: String             = "",    // e.g., "BBANK-000001" — auto-generated on donor registration
+    val donorVerificationDate: Long? = null, // epoch ms when they became a verified donor
 
     // ── Recipient-specific ────────────────────────────────────────────────────
     val hospitalName: String    = "",

@@ -11,8 +11,10 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bloodbank.R
 import com.example.bloodbank.databinding.FragmentActivityBinding
+import com.example.bloodbank.presentation.home.BloodRequestAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -23,6 +25,7 @@ class ActivityFragment : Fragment() {
     private val binding get() = _binding!!
     
     private val viewModel: ActivityViewModel by viewModels()
+    private lateinit var adapter: BloodRequestAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,6 +38,18 @@ class ActivityFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        
+        adapter = BloodRequestAdapter(
+            onRespondClick = { request ->
+                val bundle = Bundle().apply {
+                    putString("requestId", request.requestId)
+                }
+                findNavController().navigate(R.id.action_activity_to_request_detail, bundle)
+            }
+        )
+        binding.rvDonations.adapter = adapter
+        binding.rvDonations.layoutManager = LinearLayoutManager(requireContext())
+        
         setupListeners()
         observeUiState()
     }
@@ -55,23 +70,15 @@ class ActivityFragment : Fragment() {
                 viewModel.uiState.collect { state ->
                     binding.progressActivity.isVisible = state.isLoading
                     
-                    if (!state.isLoading) {
-                        if (!state.isDonor) {
-                            binding.layoutNotDonor.isVisible = true
-                            binding.layoutDonations.isVisible = false
-                        } else {
-                            binding.layoutNotDonor.isVisible = false
-                            binding.layoutDonations.isVisible = true
-                            
-                            // Check if empty
-                            binding.layoutNoDonations.isVisible = state.donations.isEmpty()
-                            binding.rvDonations.isVisible = state.donations.isNotEmpty()
-                            
-                            // TODO: Set up RecyclerView adapter
-                        }
-                    } else {
-                        binding.layoutNotDonor.isVisible = false
-                        binding.layoutDonations.isVisible = false
+                    val isDonorAndLoaded = !state.isLoading && state.isDonor
+                    binding.layoutNotDonor.isVisible = !state.isLoading && !state.isDonor
+                    binding.layoutDonations.isVisible = isDonorAndLoaded
+                    
+                    binding.layoutNoDonations.isVisible = isDonorAndLoaded && state.donations.isEmpty()
+                    binding.rvDonations.isVisible = isDonorAndLoaded && state.donations.isNotEmpty()
+                    
+                    if (isDonorAndLoaded) {
+                        adapter.submitList(state.donations)
                     }
                 }
             }

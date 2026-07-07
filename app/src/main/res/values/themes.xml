@@ -1,25 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!--
-        BloodBank Theme — Material 3 (Material You) base theme.
-        Colors are intentionally minimal here; your colorPrimary / colorSurface
-        should come from your brand palette (red tones for blood bank branding).
-
-        Full color palette will be added in Step 2 when we implement the UI.
-    -->
-
-    <!-- Base application theme -->
+    <!-- Base application theme — Fully Migrated to Material 3 -->
     <style name="Theme.BloodBank" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Primary Brand Palette -->
         <item name="colorPrimary">@color/blood_red</item>
-        <item name="colorPrimaryVariant">@color/blood_red_dark</item>
         <item name="colorOnPrimary">@color/white</item>
+        <item name="colorPrimaryContainer">@color/blood_red_container</item>
+        <item name="colorOnPrimaryContainer">@color/on_blood_red_container</item>
+        
+        <!-- Secondary / Accent Palette -->
         <item name="colorSecondary">@color/accent_coral</item>
         <item name="colorOnSecondary">@color/white</item>
-        <item name="android:statusBarColor">@color/blood_red</item>
+        <item name="colorSecondaryContainer">@color/accent_coral_container</item>
+        <item name="colorOnSecondaryContainer">@color/on_accent_coral_container</item>
+
+        <!-- Typography & Surface Readability -->
+        <item name="android:windowBackground">@color/off_white</item>
+        <item name="colorSurface">@color/surface</item>
+        <item name="colorOnSurface">@color/on_surface</item>
+        <item name="colorSurfaceVariant">@color/surface_variant</item>
+        <item name="colorOnSurfaceVariant">@color/on_surface_variant</item>
+
+        <!-- Status Bar Hardware Control -->
+        <item name="android:statusBarColor">@color/blood_red_dark</item>
+        <item name="android:windowLightStatusBar">false</item> <!-- Puti ang icons sa ibabaw kay ngitngit ang background -->
     </style>
 
-    <!-- Splash screen theme — shown during cold start -->
+    <!-- Splash screen theme — pabilin nga intact ug paspas -->
     <style name="Theme.BloodBank.Splash" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/blood_red</item>
         <item name="windowSplashScreenAnimatedIcon">@android:color/transparent</item>

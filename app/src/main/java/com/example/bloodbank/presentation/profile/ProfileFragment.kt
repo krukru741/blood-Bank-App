@@ -1,6 +1,6 @@
 package com.example.bloodbank.presentation.profile
 
-import android.content.Intent
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,11 +12,11 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.example.bloodbank.R
 import com.example.bloodbank.databinding.FragmentProfileBinding
 import com.example.bloodbank.domain.model.User
 import com.example.bloodbank.domain.model.UserRole
-import com.example.bloodbank.presentation.auth.AuthActivity
 import com.example.bloodbank.presentation.common.extensions.showErrorSnackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -69,15 +69,18 @@ class ProfileFragment : Fragment() {
 
     private fun setupListeners() {
         binding.btnEditProfile.setOnClickListener {
-            findNavController().navigate(com.example.bloodbank.R.id.action_profile_to_edit_profile)
+            findNavController().navigate(R.id.action_profile_to_edit_profile)
         }
         binding.btnCompleteProfile.setOnClickListener {
-            findNavController().navigate(com.example.bloodbank.R.id.action_profile_to_become_donor)
+            findNavController().navigate(R.id.action_profile_to_become_donor)
         }
         binding.switchAvailable.setOnCheckedChangeListener { buttonView, isChecked ->
             if (buttonView.isPressed) {
                 viewModel.toggleAvailability(isChecked)
             }
+        }
+        binding.btnViewDonorCard.setOnClickListener {
+            findNavController().navigate(R.id.action_profile_to_donor_card)
         }
     }
 
@@ -115,7 +118,7 @@ class ProfileFragment : Fragment() {
             }
 
             if (user.profilePhotoUrl.isNotEmpty()) {
-                com.bumptech.glide.Glide.with(this@ProfileFragment)
+                Glide.with(this@ProfileFragment)
                     .load(user.profilePhotoUrl)
                     .placeholder(android.R.drawable.ic_menu_my_calendar)
                     .into(ivAvatar)
@@ -126,12 +129,20 @@ class ProfileFragment : Fragment() {
             tvCity.text  = user.city.ifBlank { "Location not set" }
             tvVerificationStatus.text = if (user.isVerified) "✅ Email Verified" else "⚠ Email Not Verified"
 
+            // Donor card badge & button
+            val isDonor = user.role == UserRole.DONOR
+            llVerifiedDonorBadge.isVisible = isDonor
+            tvDonorIdProfile.isVisible = isDonor && user.donorId.isNotEmpty()
+            btnViewDonorCard.isVisible = isDonor
+            if (isDonor && user.donorId.isNotEmpty()) {
+                tvDonorIdProfile.text = "Donor ID: ${user.donorId}"
+            }
+
             // Base user specific
             val isBaseUser = user.role == UserRole.USER
             cardCompleteProfile.isVisible = isBaseUser
 
             // Donor-specific rows
-            val isDonor = user.role == UserRole.DONOR
             rowWeight.isVisible       = isDonor
             rowLastDonation.isVisible = isDonor
             cardAvailability.isVisible = isDonor
@@ -152,9 +163,9 @@ class ProfileFragment : Fragment() {
                 val silverColor = if (donations >= 5) requireContext().getColor(R.color.blood_red) else requireContext().getColor(R.color.gray_text)
                 val goldColor = if (donations >= 10) requireContext().getColor(R.color.blood_red) else requireContext().getColor(R.color.gray_text)
                 
-                ivBadgeBronze.imageTintList = android.content.res.ColorStateList.valueOf(bronzeColor)
-                ivBadgeSilver.imageTintList = android.content.res.ColorStateList.valueOf(silverColor)
-                ivBadgeGold.imageTintList = android.content.res.ColorStateList.valueOf(goldColor)
+                ivBadgeBronze.imageTintList = ColorStateList.valueOf(bronzeColor)
+                ivBadgeSilver.imageTintList = ColorStateList.valueOf(silverColor)
+                ivBadgeGold.imageTintList = ColorStateList.valueOf(goldColor)
             }
 
             // Stats card — role-specific
@@ -167,8 +178,8 @@ class ProfileFragment : Fragment() {
                 tvStat3Value.text  = if (eligible) "✓" else "✗"
                 tvStat3Value.setTextColor(
                     requireContext().getColor(
-                        if (eligible) com.example.bloodbank.R.color.success_green
-                        else          com.example.bloodbank.R.color.error_red
+                        if (eligible) R.color.success_green
+                        else          R.color.error_red
                     )
                 )
                 tvStat3Label.text  = if (eligible) "Eligible Now" else "Not Eligible"

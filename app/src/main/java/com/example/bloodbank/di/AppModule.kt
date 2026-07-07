@@ -13,6 +13,9 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import javax.inject.Qualifier
 import javax.inject.Singleton
+import androidx.room.Room
+import com.example.bloodbank.data.local.AppDatabase
+import com.example.bloodbank.data.local.dao.LocationDao
 
 // ── DataStore extension property ──────────────────────────────────────────────
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
@@ -69,4 +72,26 @@ object AppModule {
     fun provideDataStore(
         @ApplicationContext context: Context
     ): DataStore<Preferences> = context.dataStore
+
+    // ── Room Database ──────────────────────────────────────────────────────────
+
+    @Provides
+    @Singleton
+    fun provideAppDatabase(
+        @ApplicationContext context: Context
+    ): AppDatabase {
+        return Room.databaseBuilder(
+            context,
+            AppDatabase::class.java,
+            "bloodbank_database"
+        ).fallbackToDestructiveMigration().build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideLocationDao(
+        appDatabase: AppDatabase
+    ): LocationDao {
+        return appDatabase.locationDao
+    }
 }

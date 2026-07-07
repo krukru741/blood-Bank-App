@@ -12,6 +12,7 @@ import android.webkit.WebViewClient
 import android.widget.ArrayAdapter
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -21,17 +22,16 @@ import androidx.navigation.fragment.findNavController
 import com.example.bloodbank.R
 import com.example.bloodbank.databinding.FragmentCreateRequestBinding
 import com.example.bloodbank.domain.model.UrgencyLevel
-import com.example.bloodbank.presentation.common.AuthUiState
 import com.example.bloodbank.presentation.common.extensions.hide
 import com.example.bloodbank.presentation.common.extensions.hideKeyboard
 import com.example.bloodbank.presentation.common.extensions.show
 import com.example.bloodbank.presentation.common.extensions.showErrorSnackbar
 import com.example.bloodbank.presentation.common.extensions.showSuccessSnackbar
-import com.example.bloodbank.presentation.common.extensions.text
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import java.util.Locale
 
 @AndroidEntryPoint
@@ -82,8 +82,9 @@ class CreateRequestFragment : Fragment() {
         setupMapPicker()
         setupLocationButtons()
         setupPsgcListeners()
-        observePsgc()
-        observeUiState()
+        setupErrorClearing()
+        setupRetryListeners()
+        observeState()
         
         updateStepperUI()
     }
@@ -97,11 +98,14 @@ class CreateRequestFragment : Fragment() {
 
     private fun setupStepper() {
         binding.btnNext.setOnClickListener {
-            if (currentStep < 2) {
-                currentStep++
-                updateStepperUI()
-            } else {
-                submitRequest()
+            if (validateCurrentStep()) {
+                if (currentStep < 2) {
+                    currentStep++
+                    updateStepperUI()
+                } else {
+                    binding.btnNext.isEnabled = false // prevent double click
+                    submitRequest()
+                }
             }
         }
 
@@ -132,6 +136,40 @@ class CreateRequestFragment : Fragment() {
         } else {
             binding.btnBack.visibility = View.VISIBLE
             binding.btnNext.text = "Post Request"
+        }
+    }
+
+    private fun validateCurrentStep(): Boolean {
+        return when (currentStep) {
+            0 -> viewModel.validateStep1(
+                bloodType = binding.acvBloodType.text.toString().trim(),
+                units = binding.etUnits.text.toString().trim()
+            )
+            1 -> viewModel.validateStep2(
+                hospital = binding.etHospital.text.toString().trim(),
+                province = binding.etProvince.text.toString().trim(),
+                city = binding.etCity.text.toString().trim()
+            )
+            2 -> viewModel.validateStep3(
+                contact = binding.etContact.text.toString().trim()
+            )
+            else -> false
+        }
+    }
+
+    private fun setupErrorClearing() {
+        binding.acvBloodType.doOnTextChanged { _, _, _, _ -> viewModel.clearError(FormField.BLOOD_TYPE) }
+        binding.etUnits.doOnTextChanged { _, _, _, _ -> viewModel.clearError(FormField.UNITS) }
+        binding.etHospital.doOnTextChanged { _, _, _, _ -> viewModel.clearError(FormField.HOSPITAL) }
+        binding.etProvince.doOnTextChanged { _, _, _, _ -> viewModel.clearError(FormField.PROVINCE) }
+        binding.etCity.doOnTextChanged { _, _, _, _ -> viewModel.clearError(FormField.CITY) }
+        binding.etContact.doOnTextChanged { _, _, _, _ -> viewModel.clearError(FormField.CONTACT) }
+    }
+
+    private fun setupRetryListeners() {
+        binding.btnRetryPsgc.setOnClickListener {
+            binding.layoutPsgcError.isVisible = false
+            viewModel.fetchProvinces()
         }
     }
 
@@ -210,18 +248,21 @@ class CreateRequestFragment : Fragment() {
     @SuppressLint("MissingPermission")
     private fun getCurrentLocation() {
         binding.btnUseLocation.isEnabled = false
-        fusedLocationClient.lastLocation.addOnSuccessListener { location ->
-            binding.btnUseLocation.isEnabled = true
-            if (location != null) {
-                currentLat = location.latitude
-                currentLng = location.longitude
-                reverseGeocodeLocation(location.latitude, location.longitude)
-            } else {
-                binding.coordinatorCreateRequest.showErrorSnackbar("Could not get current location.")
+        viewLifecycleOwner.lifecycleScope.launch {
+            try {
+                val location = fusedLocationClient.lastLocation.await()
+                binding.btnUseLocation.isEnabled = true
+                if (location != null) {
+                    currentLat = location.latitude
+                    currentLng = location.longitude
+                    reverseGeocodeLocation(location.latitude, location.longitude)
+                } else {
+                    binding.coordinatorCreateRequest.showErrorSnackbar("Could not get current location.")
+                }
+            } catch (e: Exception) {
+                binding.btnUseLocation.isEnabled = true
+                binding.coordinatorCreateRequest.showErrorSnackbar("Failed to get location: ${e.localizedMessage}")
             }
-        }.addOnFailureListener {
-            binding.btnUseLocation.isEnabled = true
-            binding.coordinatorCreateRequest.showErrorSnackbar("Failed to get location.")
         }
     }
     
@@ -257,37 +298,12 @@ class CreateRequestFragment : Fragment() {
         binding.coordinatorCreateRequest.showSuccessSnackbar("Address auto-filled!")
     }
 
-    // ── PSGC Flow ────────────────────────────────────────────────────────────
-
-    private fun observePsgc() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                launch {
-                    viewModel.provinces.collect { list ->
-                        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, list.map { it.name })
-                        binding.etProvince.setAdapter(adapter)
-                    }
-                }
-                launch {
-                    viewModel.cities.collect { list ->
-                        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, list.map { it.name })
-                        binding.etCity.setAdapter(adapter)
-                    }
-                }
-                launch {
-                    viewModel.barangays.collect { list ->
-                        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, list.map { it.name })
-                        binding.etBarangay.setAdapter(adapter)
-                    }
-                }
-            }
-        }
-    }
+    // ── PSGC Flow & UI State Observation ────────────────────────────────────────────────────────────
 
     private fun setupPsgcListeners() {
         binding.etProvince.setOnItemClickListener { _, _, _, _ ->
             val selectedName = binding.etProvince.text.toString()
-            val province = viewModel.provinces.value.find { it.name == selectedName }
+            val province = viewModel.uiState.value.provinces.find { it.name == selectedName }
             province?.let {
                 binding.etCity.setText("", false)
                 binding.etBarangay.setText("", false)
@@ -296,10 +312,70 @@ class CreateRequestFragment : Fragment() {
         }
         binding.etCity.setOnItemClickListener { _, _, _, _ ->
             val selectedName = binding.etCity.text.toString()
-            val city = viewModel.cities.value.find { it.name == selectedName }
+            val city = viewModel.uiState.value.cities.find { it.name == selectedName }
             city?.let {
                 binding.etBarangay.setText("", false)
                 viewModel.fetchBarangays(it.code)
+            }
+        }
+    }
+
+    private fun observeState() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiState.collect { state ->
+                    // Dropdowns
+                    if (binding.etProvince.adapter?.count != state.provinces.size) {
+                        binding.etProvince.setAdapter(ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, state.provinces.map { it.name }))
+                    }
+                    if (binding.etCity.adapter?.count != state.cities.size) {
+                        binding.etCity.setAdapter(ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, state.cities.map { it.name }))
+                    }
+                    if (binding.etBarangay.adapter?.count != state.barangays.size) {
+                        binding.etBarangay.setAdapter(ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, state.barangays.map { it.name }))
+                    }
+
+                    // Form Errors
+                    binding.tilBloodType.error = state.formErrors.bloodType
+                    binding.tilUnits.error = state.formErrors.units
+                    binding.tilHospital.error = state.formErrors.hospital
+                    binding.tilProvince.error = state.formErrors.province
+                    binding.tilCity.error = state.formErrors.city
+                    binding.tilContact.error = state.formErrors.contact
+
+                    // PSGC Offline state
+                    if (state.psgcError != null) {
+                        binding.layoutPsgcError.isVisible = true
+                        binding.tvPsgcErrorMsg.text = state.psgcError
+                    } else {
+                        binding.layoutPsgcError.isVisible = false
+                    }
+
+                    // Loading State
+                    if (state.isLoading) {
+                        setFormEnabled(false)
+                        binding.progressSubmit.show()
+                    } else {
+                        binding.progressSubmit.hide()
+                        // Ensure form is re-enabled if loading finished but not successfully navigating away
+                        if (!state.isSuccess) setFormEnabled(true)
+                    }
+
+                    // Submission Result
+                    if (state.isSuccess) {
+                        findNavController().navigateUp()
+                        requireActivity().window.decorView.showSuccessSnackbar(
+                            "🩸 Blood request posted successfully!"
+                        )
+                        viewModel.resetState()
+                    }
+
+                    if (state.errorMessage != null) {
+                        setFormEnabled(true)
+                        binding.coordinatorCreateRequest.showErrorSnackbar(state.errorMessage)
+                        viewModel.resetState()
+                    }
+                }
             }
         }
     }
@@ -309,17 +385,17 @@ class CreateRequestFragment : Fragment() {
     private fun submitRequest() {
         hideKeyboard()
         viewModel.submitRequest(
-            bloodTypeLabel = binding.acvBloodType.text.toString(),
-            units          = binding.tilUnits.text,
-            hospital       = binding.tilHospital.text,
-            province       = binding.tilProvince.text,
-            city           = binding.tilCity.text,
-            barangay       = binding.tilBarangay.text,
-            street         = binding.tilStreet.text,
+            bloodTypeLabel = binding.acvBloodType.text.toString().trim(),
+            units          = binding.etUnits.text.toString().trim(),
+            hospital       = binding.etHospital.text.toString().trim(),
+            province       = binding.etProvince.text.toString().trim(),
+            city           = binding.etCity.text.toString().trim(),
+            barangay       = binding.etBarangay.text.toString().trim(),
+            street         = binding.etStreet.text.toString().trim(),
             latitude       = currentLat,
             longitude      = currentLng,
-            contact        = binding.tilContact.text,
-            notes          = binding.tilNotes.text,
+            contact        = binding.etContact.text.toString().trim(),
+            notes          = binding.etNotes.text.toString().trim(),
             urgency        = selectedUrgency()
         )
     }
@@ -328,35 +404,6 @@ class CreateRequestFragment : Fragment() {
         binding.chipCritical.isChecked -> UrgencyLevel.CRITICAL
         binding.chipUrgent.isChecked   -> UrgencyLevel.URGENT
         else                           -> UrgencyLevel.NORMAL
-    }
-
-    private fun observeUiState() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.uiState.collect { state ->
-                    when (state) {
-                        is AuthUiState.Idle    -> setFormEnabled(true)
-                        is AuthUiState.Loading -> {
-                            setFormEnabled(false)
-                            binding.progressSubmit.show()
-                        }
-                        is AuthUiState.Success -> {
-                            binding.progressSubmit.hide()
-                            findNavController().navigateUp()
-                            requireActivity().window.decorView.showSuccessSnackbar(
-                                "🩸 Blood request posted successfully!"
-                            )
-                        }
-                        is AuthUiState.Error   -> {
-                            binding.progressSubmit.hide()
-                            setFormEnabled(true)
-                            binding.coordinatorCreateRequest.showErrorSnackbar(state.message)
-                            viewModel.resetState()
-                        }
-                    }
-                }
-            }
-        }
     }
 
     private fun setFormEnabled(enabled: Boolean) {

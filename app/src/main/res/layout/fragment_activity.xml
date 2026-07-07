@@ -90,29 +90,30 @@
             android:visibility="gone">
 
             <ImageView
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:src="@drawable/ic_blood_drop"
-                android:alpha="0.2" />
+                android:alpha="0.3"
+                app:tint="@color/blood_red" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="24dp"
                 android:gravity="center"
-                android:text="No Activity Yet"
+                android:text="Ready to Save a Life?"
                 android:textColor="@color/on_surface"
-                android:textSize="20sp"
+                android:textSize="24sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="12dp"
                 android:gravity="center"
-                android:text="Requests you accept will appear here so you can track them."
-                android:textColor="#9E9E9E"
-                android:textSize="14sp" />
+                android:text="Your donation journey starts here. Find a patient in need and make a difference today."
+                android:textColor="#888888"
+                android:textSize="16sp" />
                 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_find_requests"

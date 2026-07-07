@@ -8,122 +8,210 @@
     android:background="@color/surface"
     android:fitsSystemWindows="true">
 
-    <com.google.android.material.appbar.AppBarLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        app:elevation="0dp">
+        android:layout_height="match_parent"
+        android:paddingBottom="120dp"
+        android:clipToPadding="false">
 
-        <!-- Toolbar handled by MainActivity, but we can put details here -->
-        
-        <com.google.android.material.card.MaterialCardView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="2dp"
-            app:strokeWidth="1dp"
-            app:strokeColor="#E0E0E0">
+            android:orientation="vertical">
 
-            <LinearLayout
+            <!-- Header Section -->
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
-
-                    <TextView
-                        android:id="@+id/tv_blood_type"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:background="@drawable/bg_blood_type_badge"
-                        android:gravity="center"
-                        android:text="O+"
-                        android:textColor="@android:color/white"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginStart="12dp"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/tv_patient_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            tools:text="Maria Santos"
-                            android:textColor="@color/on_surface"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/tv_hospital"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="2dp"
-                            tools:text="📍 Surigao del Sur Provincial Hospital"
-                            android:textColor="#757575"
-                            android:textSize="12sp" />
-                    </LinearLayout>
-
-                    <ImageButton
-                        android:id="@+id/btn_edit_request"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:src="@android:drawable/ic_menu_edit"
-                        android:visibility="gone"
-                        tools:visibility="visible"
-                        app:tint="#757575"
-                        android:contentDescription="Edit Request" />
-                </LinearLayout>
+                android:background="@drawable/bg_profile_header"
+                android:paddingBottom="48dp"
+                android:paddingTop="48dp">
 
                 <TextView
-                    android:id="@+id/tv_description"
-                    android:layout_width="match_parent"
+                    android:id="@+id/tv_blood_type"
+                    android:layout_width="96dp"
+                    android:layout_height="96dp"
+                    android:background="@drawable/bg_blood_type_badge"
+                    android:backgroundTint="@color/surface"
+                    android:textColor="@color/blood_red"
+                    android:gravity="center"
+                    tools:text="O+"
+                    android:textSize="36sp"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:elevation="4dp" />
+
+                <TextView
+                    android:id="@+id/tv_patient_name"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    tools:text="Patient needs blood for emergency surgery."
-                    android:textColor="@color/on_surface"
-                    android:textSize="14sp" />
+                    android:layout_marginTop="20dp"
+                    tools:text="Maria Santos"
+                    android:textColor="@android:color/white"
+                    android:textSize="26sp"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    app:layout_constraintTop_toBottomOf="@id/tv_blood_type"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_hospital"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:gravity="center"
+                    tools:text="📍 Surigao del Sur Provincial Hospital"
+                    android:textColor="#F5F5F5"
+                    android:textSize="15sp"
+                    app:layout_constraintTop_toBottomOf="@id/tv_patient_name"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+                    
+                <ImageButton
+                    android:id="@+id/btn_edit_request"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@android:drawable/ic_menu_edit"
+                    app:tint="@android:color/white"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="16dp" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- Details Section (Overlapping card) -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="-24dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="8dp"
+                app:strokeWidth="0dp"
+                android:backgroundTint="@android:color/white">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
+                    android:orientation="vertical"
+                    android:padding="24dp">
 
                     <TextView
-                        android:id="@+id/tv_units"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        tools:text="2 Units"
-                        android:textColor="@color/blood_red"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
+                        android:text="Urgency &amp; Requirements"
+                        android:textColor="@color/on_surface"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="24dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <!-- Units needed -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:gravity="center">
+                            
+                            <ImageView
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
+                                android:src="@drawable/ic_blood_drop"
+                                app:tint="@color/blood_red" />
+
+                            <TextView
+                                android:id="@+id/tv_units"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="12dp"
+                                tools:text="2 Units"
+                                android:textColor="@color/on_surface"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+                                
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Needed"
+                                android:textColor="#888888"
+                                android:textSize="13sp" />
+                        </LinearLayout>
+
+                        <!-- Urgency -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:gravity="center">
+
+                            <ImageView
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
+                                android:src="@android:drawable/ic_dialog_alert"
+                                app:tint="@color/urgency_critical" />
+
+                            <TextView
+                                android:id="@+id/tv_urgency"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="12dp"
+                                tools:text="CRITICAL"
+                                android:textColor="@color/urgency_critical"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+                                
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Status"
+                                android:textColor="#888888"
+                                android:textSize="13sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+                    
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#EEEEEE"
+                        android:layout_marginTop="32dp"
+                        android:layout_marginBottom="24dp" />
+                        
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Additional Notes"
+                        android:textColor="@color/on_surface"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="12dp" />
 
                     <TextView
-                        android:id="@+id/tv_urgency"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/tv_description"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        tools:text="⚠️ CRITICAL"
-                        android:textColor="@color/urgency_critical"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
+                        tools:text="Patient needs blood for emergency surgery. Please respond immediately if you have a matching blood type."
+                        android:textColor="#666666"
+                        android:lineSpacingExtra="6dp"
+                        android:textSize="15sp" />
                 </LinearLayout>
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-    </com.google.android.material.appbar.AppBarLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
     <!-- Action Area (Bottom) -->
     <LinearLayout
@@ -131,24 +219,24 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="@android:color/white"
-        android:elevation="8dp"
+        android:elevation="16dp"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="24dp">
 
         <!-- For Donor: Accept Request -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_accept_request"
             style="@style/Widget.Material3.Button"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_height="64dp"
             android:backgroundTint="@color/blood_red"
             android:text="🩸 I WANT TO DONATE"
             android:textColor="@android:color/white"
-            android:textSize="16sp"
+            android:textSize="18sp"
             android:textStyle="bold"
             android:visibility="gone"
             tools:visibility="visible"
-            app:cornerRadius="12dp" />
+            app:cornerRadius="32dp" />
 
         <!-- For MATCHED status: Contact Options -->
         <LinearLayout
@@ -164,9 +252,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="8dp"
-                android:text="Matched with Donor"
+                android:layout_marginBottom="16dp"
+                android:text="You are matched to this patient!"
                 android:textColor="@color/on_surface"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <LinearLayout
@@ -178,23 +267,27 @@
                     android:id="@+id/btn_call_donor"
                     style="@style/Widget.Material3.Button.OutlinedButton"
                     android:layout_width="0dp"
-                    android:layout_height="56dp"
+                    android:layout_height="60dp"
                     android:layout_weight="1"
                     android:layout_marginEnd="8dp"
                     android:text="Call"
+                    android:textColor="@color/blood_red"
+                    app:strokeColor="@color/blood_red"
                     app:icon="@android:drawable/ic_menu_call"
-                    app:cornerRadius="12dp" />
+                    app:iconTint="@color/blood_red"
+                    app:cornerRadius="30dp" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_text_donor"
                     style="@style/Widget.Material3.Button"
                     android:layout_width="0dp"
-                    android:layout_height="56dp"
+                    android:layout_height="60dp"
                     android:layout_weight="1"
                     android:layout_marginStart="8dp"
-                    android:text="Text"
+                    android:text="Message"
+                    android:backgroundTint="@color/blood_red"
                     app:icon="@android:drawable/ic_dialog_email"
-                    app:cornerRadius="12dp" />
+                    app:cornerRadius="30dp" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

@@ -1,6 +1,6 @@
 package com.example.bloodbank.domain.repository
 
-import com.example.bloodbank.core.utils.Resource
+import com.example.bloodbank.domain.model.Resource
 import com.example.bloodbank.domain.model.HospitalMarker
 import kotlinx.coroutines.flow.Flow
 

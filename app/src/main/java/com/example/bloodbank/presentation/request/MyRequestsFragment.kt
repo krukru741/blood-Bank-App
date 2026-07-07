@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -52,8 +51,7 @@ class MyRequestsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         adapter = BloodRequestAdapter(
-            onRespondClick = { /* donors respond — recipient's own list, no action */ },
-            onCardClick    = { request ->
+            onRespondClick = { request ->
                 val bundle = Bundle().apply {
                     putString("requestId", request.requestId)
                 }
@@ -61,10 +59,8 @@ class MyRequestsFragment : Fragment() {
             }
         )
 
-        binding.rvMyRequests.apply {
-            layoutManager = LinearLayoutManager(requireContext())
-            adapter       = this@MyRequestsFragment.adapter
-        }
+        binding.rvMyRequests.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvMyRequests.adapter = adapter
 
         binding.btnCreateFirstRequest.setOnClickListener {
             findNavController().navigate(R.id.action_my_requests_to_create)

@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/surface">
+
+    <!-- Top App Bar -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@drawable/bg_gradient_auth"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="12dp">
+
+        <ImageButton
+            android:id="@+id/btn_back"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@android:drawable/ic_media_previous"
+            app:tint="@color/white" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:text="My Donor Card"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- ── The Donor Card (captured for sharing) ─────────────────── -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/donor_card_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="8dp"
+                app:cardBackgroundColor="@color/white">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- Card Header — Red Gradient -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_gradient_auth"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:paddingTop="28dp"
+                        android:paddingBottom="24dp"
+                        android:paddingHorizontal="20dp">
+
+                        <!-- Profile Photo -->
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:id="@+id/iv_card_photo"
+                            android:layout_width="84dp"
+                            android:layout_height="84dp"
+                            android:layout_marginBottom="12dp"
+                            android:src="@drawable/ic_nav_profile"
+                            android:scaleType="centerCrop"
+                            android:background="@color/blood_red_dark"
+                            app:shapeAppearanceOverlay="@style/ShapeAppearance.App.CircleImageView"
+                            app:strokeColor="@color/white"
+                            app:strokeWidth="2.5dp" />
+
+                        <!-- Name -->
+                        <TextView
+                            android:id="@+id/tv_card_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Donor Name"
+                            android:textColor="@color/white"
+                            android:textStyle="bold"
+                            android:textSize="20sp"
+                            android:layout_marginBottom="6dp" />
+
+                        <!-- Blood Type -->
+                        <TextView
+                            android:id="@+id/tv_card_blood_type"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_blood_type_badge"
+                            android:paddingHorizontal="18dp"
+                            android:paddingVertical="5dp"
+                            android:text="O+"
+                            android:textColor="@color/white"
+                            android:textStyle="bold"
+                            android:textSize="17sp" />
+                    </LinearLayout>
+
+                    <!-- ── Card Body — Clean White ─────────────────────────── -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingHorizontal="20dp"
+                        android:paddingTop="20dp"
+                        android:paddingBottom="16dp">
+
+                        <!-- Donor ID -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:background="@color/off_white"
+                            android:paddingHorizontal="14dp"
+                            android:layout_marginBottom="8dp">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:text="Donor ID"
+                                android:textColor="@color/gray_text"
+                                android:textSize="13sp" />
+
+                            <TextView
+                                android:id="@+id/tv_card_donor_id"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="BBANK-000001"
+                                android:textColor="@color/blood_red"
+                                android:textStyle="bold"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+
+                        <!-- Registration Date -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:background="@color/off_white"
+                            android:paddingHorizontal="14dp"
+                            android:layout_marginBottom="8dp">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:text="Registered"
+                                android:textColor="@color/gray_text"
+                                android:textSize="13sp" />
+
+                            <TextView
+                                android:id="@+id/tv_card_reg_date"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Jul 3, 2026"
+                                android:textColor="@color/on_surface"
+                                android:textSize="13sp" />
+                        </LinearLayout>
+
+                        <!-- Status -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:background="@color/off_white"
+                            android:paddingHorizontal="14dp"
+                            android:layout_marginBottom="20dp">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:text="Status"
+                                android:textColor="@color/gray_text"
+                                android:textSize="13sp" />
+
+                            <TextView
+                                android:id="@+id/tv_card_status"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="✅ Active Donor"
+                                android:textColor="@color/success_green"
+                                android:textStyle="bold"
+                                android:textSize="13sp" />
+                        </LinearLayout>
+
+                        <!-- QR Code Section -->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:text="SCAN TO VERIFY"
+                            android:textColor="@color/gray_text"
+                            android:textSize="11sp"
+                            android:letterSpacing="0.15"
+                            android:layout_marginBottom="10dp" />
+
+                        <ImageView
+                            android:id="@+id/iv_qr_code"
+                            android:layout_width="156dp"
+                            android:layout_height="156dp"
+                            android:layout_gravity="center_horizontal"
+                            android:padding="4dp"
+                            android:background="@color/white"
+                            android:layout_marginBottom="16dp" />
+
+                        <!-- Footer Note -->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:text="Blood Bank App — Prototype Verification Card"
+                            android:textColor="@color/gray_text"
+                            android:textSize="10sp"
+                            android:gravity="center"
+                            android:layout_marginBottom="4dp" />
+
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Share Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_share_card"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginBottom="8dp"
+                android:text="📤  Share Donor Card"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:backgroundTint="@color/blood_red"
+                app:cornerRadius="10dp"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

@@ -12,6 +12,8 @@ import com.example.bloodbank.domain.repository.DonorRepository
 import com.example.bloodbank.domain.repository.UserRepository
 import com.example.bloodbank.data.repository.HospitalRepositoryImpl
 import com.example.bloodbank.domain.repository.HospitalRepository
+import com.example.bloodbank.data.repository.PsgcRepositoryImpl
+import com.example.bloodbank.domain.repository.PsgcRepository
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -74,5 +76,12 @@ abstract class RepositoryModule {
     abstract fun bindChatRepository(
         impl: ChatRepositoryImpl
     ): ChatRepository
+
+    // ── PSGC Locations ────────────────────────────────────────────────────────
+    @Binds
+    @Singleton
+    abstract fun bindPsgcRepository(
+        impl: PsgcRepositoryImpl
+    ): PsgcRepository
 
 }

@@ -95,6 +95,55 @@
 
                 </LinearLayout>
 
+                <!-- Verified Donor Badge (donors only) -->
+                <LinearLayout
+                    android:id="@+id/ll_verified_donor_badge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="#40FFD700"
+                    android:paddingHorizontal="14dp"
+                    android:paddingVertical="6dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="🏅 VERIFIED DONOR"
+                        android:textColor="#FFD700"
+                        android:textStyle="bold"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <!-- Donor ID row (donors only) -->
+                <TextView
+                    android:id="@+id/tv_donor_id_profile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:textColor="#CCFFFFFF"
+                    android:textSize="12sp"
+                    android:visibility="gone"
+                    tools:text="Donor ID: BBANK-000001" />
+
+                <!-- View Donor Card Button (donors only) -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_view_donor_card"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="14dp"
+                    android:text="🪪  View My Donor Card"
+                    android:textSize="13sp"
+                    android:visibility="gone"
+                    app:backgroundTint="#CC000000"
+                    app:strokeColor="#80FFFFFF"
+                    app:strokeWidth="1dp"
+                    app:cornerRadius="20dp"
+                    android:textColor="@color/white"
+                    style="?attr/materialButtonOutlinedStyle" />
+
             </LinearLayout>
 
             <!-- ── Stats Card ─────────────────────────────────────────────── -->

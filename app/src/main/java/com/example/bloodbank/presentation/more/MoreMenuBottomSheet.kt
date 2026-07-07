@@ -71,11 +71,8 @@ class MoreMenuBottomSheet : BottomSheetDialogFragment() {
     private fun setupClickListeners() {
         // 1. Hospital Partners / Find a Hospital
         binding.rowHospitals.setOnClickListener {
-            val navHostFragment = requireActivity().supportFragmentManager
-                .findFragmentById(R.id.main_nav_host) as androidx.navigation.fragment.NavHostFragment
             val bundle = Bundle().apply { putString("initialFilter", "HOSPITALS") }
-            navHostFragment.navController.navigate(R.id.homeFragment, bundle)
-            dismiss()
+            navigateTo(R.id.homeFragment, bundle)
         }
 
         // 2. My Certificates & Badges
@@ -96,18 +93,12 @@ class MoreMenuBottomSheet : BottomSheetDialogFragment() {
 
         // 4. Donation Eligibility Quiz / Checklist
         binding.rowQuiz.setOnClickListener {
-            val navHostFragment = requireActivity().supportFragmentManager
-                .findFragmentById(R.id.main_nav_host) as androidx.navigation.fragment.NavHostFragment
-            navHostFragment.navController.navigate(R.id.eligibilityFragment)
-            dismiss()
+            navigateTo(R.id.eligibilityFragment)
         }
 
         // 5. Settings
         binding.rowSettings.setOnClickListener {
-            val navHostFragment = requireActivity().supportFragmentManager
-                .findFragmentById(R.id.main_nav_host) as androidx.navigation.fragment.NavHostFragment
-            navHostFragment.navController.navigate(R.id.settingsFragment)
-            dismiss()
+            navigateTo(R.id.settingsFragment)
         }
 
         // 6. Privacy Policy
@@ -141,6 +132,13 @@ class MoreMenuBottomSheet : BottomSheetDialogFragment() {
                 navigateToAuth()
             }
         }
+    }
+
+    private fun navigateTo(actionId: Int, bundle: Bundle? = null) {
+        val navHostFragment = requireActivity().supportFragmentManager
+            .findFragmentById(R.id.main_nav_host) as androidx.navigation.fragment.NavHostFragment
+        navHostFragment.navController.navigate(actionId, bundle)
+        dismiss()
     }
 
     private fun navigateToAuth() {

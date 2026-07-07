@@ -2,7 +2,7 @@ package com.example.bloodbank.presentation.request
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.bloodbank.data.remote.api.PsgcApiService
+import com.example.bloodbank.domain.repository.PsgcRepository
 import com.example.bloodbank.data.remote.api.dto.PsgcLocationDto
 import com.example.bloodbank.domain.model.BloodRequest
 import com.example.bloodbank.domain.model.BloodType
@@ -11,52 +11,74 @@ import com.example.bloodbank.domain.model.Resource
 import com.example.bloodbank.domain.model.UrgencyLevel
 import com.example.bloodbank.domain.repository.AuthRepository
 import com.example.bloodbank.domain.repository.BloodRequestRepository
-import com.example.bloodbank.presentation.common.AuthUiState
+import com.example.bloodbank.domain.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
+enum class FormField {
+    BLOOD_TYPE, UNITS, HOSPITAL, PROVINCE, CITY, CONTACT
+}
+
+data class FormErrors(
+    val bloodType: String? = null,
+    val units: String? = null,
+    val hospital: String? = null,
+    val province: String? = null,
+    val city: String? = null,
+    val contact: String? = null
+)
+
+data class CreateRequestUiState(
+    val isLoading: Boolean = false,
+    val isSuccess: Boolean = false,
+    val errorMessage: String? = null,
+    val provinces: List<PsgcLocationDto> = emptyList(),
+    val cities: List<PsgcLocationDto> = emptyList(),
+    val barangays: List<PsgcLocationDto> = emptyList(),
+    val formErrors: FormErrors = FormErrors(),
+    val createdRequest: BloodRequest? = null,
+    val psgcError: String? = null
+)
 
 @HiltViewModel
 class CreateRequestViewModel @Inject constructor(
     private val bloodRequestRepository: BloodRequestRepository,
     private val authRepository: AuthRepository,
-    private val psgcApiService: PsgcApiService,
-    private val userRepository: com.example.bloodbank.domain.repository.UserRepository
+    private val psgcRepository: PsgcRepository,
+    private val userRepository: UserRepository
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow<AuthUiState<BloodRequest>>(AuthUiState.Idle)
-    val uiState: StateFlow<AuthUiState<BloodRequest>> = _uiState.asStateFlow()
-
-    private val _provinces = MutableStateFlow<List<PsgcLocationDto>>(emptyList())
-    val provinces: StateFlow<List<PsgcLocationDto>> = _provinces.asStateFlow()
-
-    private val _cities = MutableStateFlow<List<PsgcLocationDto>>(emptyList())
-    val cities: StateFlow<List<PsgcLocationDto>> = _cities.asStateFlow()
-
-    private val _barangays = MutableStateFlow<List<PsgcLocationDto>>(emptyList())
-    val barangays: StateFlow<List<PsgcLocationDto>> = _barangays.asStateFlow()
+    private val _uiState = MutableStateFlow(CreateRequestUiState())
+    val uiState: StateFlow<CreateRequestUiState> = _uiState.asStateFlow()
 
     init {
         fetchProvinces()
     }
 
-    private fun fetchProvinces() {
+    fun fetchProvinces() {
         viewModelScope.launch {
             try {
-                _provinces.value = psgcApiService.getProvinces().sortedBy { it.name }
-            } catch (e: Exception) {}
+                val provinces = psgcRepository.getProvinces().sortedBy { it.name }
+                _uiState.update { it.copy(provinces = provinces, psgcError = null) }
+            } catch (e: Exception) {
+                if (_uiState.value.provinces.isEmpty()) {
+                    _uiState.update { it.copy(psgcError = "Mahina ang internet. Subukang i-refresh o gamitin ang map.") }
+                }
+            }
         }
     }
 
     fun fetchCities(provinceCode: String) {
         viewModelScope.launch {
             try {
-                _cities.value = emptyList()
-                _barangays.value = emptyList()
-                _cities.value = psgcApiService.getCitiesByProvince(provinceCode).sortedBy { it.name }
+                _uiState.update { it.copy(cities = emptyList(), barangays = emptyList()) }
+                val cities = psgcRepository.getCitiesByProvince(provinceCode).sortedBy { it.name }
+                _uiState.update { it.copy(cities = cities) }
             } catch (e: Exception) {}
         }
     }
@@ -64,8 +86,9 @@ class CreateRequestViewModel @Inject constructor(
     fun fetchBarangays(cityCode: String) {
         viewModelScope.launch {
             try {
-                _barangays.value = emptyList()
-                _barangays.value = psgcApiService.getBarangaysByCity(cityCode).sortedBy { it.name }
+                _uiState.update { it.copy(barangays = emptyList()) }
+                val barangays = psgcRepository.getBarangaysByCity(cityCode).sortedBy { it.name }
+                _uiState.update { it.copy(barangays = barangays) }
             } catch (e: Exception) {}
         }
     }
@@ -87,6 +110,83 @@ class CreateRequestViewModel @Inject constructor(
         val phone: String
     )
 
+    fun clearError(field: FormField) {
+        _uiState.update { state ->
+            val newErrors = when (field) {
+                FormField.BLOOD_TYPE -> state.formErrors.copy(bloodType = null)
+                FormField.UNITS      -> state.formErrors.copy(units = null)
+                FormField.HOSPITAL   -> state.formErrors.copy(hospital = null)
+                FormField.PROVINCE   -> state.formErrors.copy(province = null)
+                FormField.CITY       -> state.formErrors.copy(city = null)
+                FormField.CONTACT    -> state.formErrors.copy(contact = null)
+            }
+            state.copy(formErrors = newErrors)
+        }
+    }
+
+    fun validateStep1(bloodType: String, units: String): Boolean {
+        var isValid = true
+        var bloodTypeError: String? = null
+        var unitsError: String? = null
+
+        if (bloodType.isBlank()) {
+            bloodTypeError = "Blood type is required"
+            isValid = false
+        }
+        if (units.isBlank() || (units.toIntOrNull() ?: 0) <= 0) {
+            unitsError = "Enter a valid number (> 0)"
+            isValid = false
+        }
+
+        _uiState.update { 
+            it.copy(formErrors = it.formErrors.copy(bloodType = bloodTypeError, units = unitsError)) 
+        }
+        return isValid
+    }
+
+    fun validateStep2(hospital: String, province: String, city: String): Boolean {
+        var isValid = true
+        var hospitalError: String? = null
+        var provinceError: String? = null
+        var cityError: String? = null
+
+        if (hospital.isBlank()) {
+            hospitalError = "Hospital name is required"
+            isValid = false
+        }
+        if (province.isBlank()) {
+            provinceError = "Province is required"
+            isValid = false
+        }
+        if (city.isBlank()) {
+            cityError = "City is required"
+            isValid = false
+        }
+
+        _uiState.update {
+            it.copy(formErrors = it.formErrors.copy(hospital = hospitalError, province = provinceError, city = cityError))
+        }
+        return isValid
+    }
+
+    fun validateStep3(contact: String): Boolean {
+        var isValid = true
+        var contactError: String? = null
+
+        if (contact.isBlank()) {
+            contactError = "Contact number is required"
+            isValid = false
+        } else if (contact.length < 10) {
+            contactError = "Enter a valid contact number"
+            isValid = false
+        }
+
+        _uiState.update {
+            it.copy(formErrors = it.formErrors.copy(contact = contactError))
+        }
+        return isValid
+    }
+
     fun submitRequest(
         bloodTypeLabel: String,
         units: String,
@@ -101,17 +201,16 @@ class CreateRequestViewModel @Inject constructor(
         notes: String,
         urgency: UrgencyLevel
     ) {
-        if (hospital.isBlank()) { _uiState.value = AuthUiState.Error("Hospital name is required"); return }
-        if (province.isBlank()) { _uiState.value = AuthUiState.Error("Province is required"); return }
-        if (city.isBlank())     { _uiState.value = AuthUiState.Error("City is required"); return }
-        if (contact.isBlank())  { _uiState.value = AuthUiState.Error("Contact number is required"); return }
-        val unitsInt = units.toIntOrNull()?.takeIf { it > 0 }
-            ?: run { _uiState.value = AuthUiState.Error("Enter a valid number of units (min 1)"); return }
+        if (!validateStep1(bloodTypeLabel, units) || !validateStep2(hospital, province, city) || !validateStep3(contact)) {
+            return
+        }
 
         val currentUser = authRepository.currentUser
-            ?: run { _uiState.value = AuthUiState.Error("Not authenticated"); return }
+        if (currentUser == null) {
+            _uiState.update { it.copy(errorMessage = "Not authenticated") }
+            return
+        }
 
-        // Compile full location string
         val fullLocation = listOfNotNull(
             street.takeIf { it.isNotBlank() },
             barangay.takeIf { it.isNotBlank() },
@@ -124,9 +223,9 @@ class CreateRequestViewModel @Inject constructor(
             requesterId   = currentUser.uid,
             requesterName = currentUser.displayName,
             bloodType     = BloodType.fromLabel(bloodTypeLabel),
-            unitsNeeded   = unitsInt,
+            unitsNeeded   = units.toIntOrNull() ?: 1,
             hospital      = hospital,
-            location      = fullLocation, // Using full location instead of just city
+            location      = fullLocation,
             latitude      = latitude,
             longitude     = longitude,
             urgency       = urgency,
@@ -134,30 +233,33 @@ class CreateRequestViewModel @Inject constructor(
             description   = notes,
             contactNumber = contact,
             createdAt     = now,
-            expiresAt     = now + (7L * 24 * 60 * 60 * 1000) // 7 days
+            expiresAt     = now + (7L * 24 * 60 * 60 * 1000)
         )
 
         viewModelScope.launch {
+            _uiState.update { it.copy(isLoading = true, errorMessage = null) }
             bloodRequestRepository.createRequest(request).collect { resource ->
                 when (resource) {
-                    is Resource.Loading -> _uiState.value = AuthUiState.Loading
+                    is Resource.Loading -> _uiState.update { it.copy(isLoading = true) }
                     is Resource.Success -> {
                         if (!currentUser.hasCreatedRequest) {
                             val updatedUser = currentUser.copy(hasCreatedRequest = true)
                             userRepository.saveUserProfile(updatedUser).collect { saveResource ->
                                 if (saveResource !is Resource.Loading) {
-                                    _uiState.value = AuthUiState.Success(resource.data)
+                                    _uiState.update { it.copy(isLoading = false, isSuccess = true, createdRequest = resource.data) }
                                 }
                             }
                         } else {
-                            _uiState.value = AuthUiState.Success(resource.data)
+                            _uiState.update { it.copy(isLoading = false, isSuccess = true, createdRequest = resource.data) }
                         }
                     }
-                    is Resource.Error   -> _uiState.value = AuthUiState.Error(resource.error.message)
+                    is Resource.Error -> _uiState.update { it.copy(isLoading = false, errorMessage = resource.error.message) }
                 }
             }
         }
     }
 
-    fun resetState() { _uiState.value = AuthUiState.Idle }
+    fun resetState() {
+        _uiState.update { it.copy(isSuccess = false, errorMessage = null, isLoading = false) }
+    }
 }

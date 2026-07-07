@@ -1,6 +1,6 @@
 package com.example.bloodbank.data.repository
 
-import com.example.bloodbank.core.utils.Resource
+import com.example.bloodbank.domain.model.Resource
 import com.example.bloodbank.domain.model.HospitalMarker
 import com.example.bloodbank.domain.model.MockHospitalData
 import com.example.bloodbank.domain.repository.HospitalRepository
@@ -27,7 +27,7 @@ class HospitalRepositoryImpl @Inject constructor(
         
         val listener = collection.addSnapshotListener { snapshot, error ->
             if (error != null) {
-                trySend(Resource.Error(error))
+                trySend(Resource.Error(com.example.bloodbank.domain.error.AppError.Unknown(error.message ?: "Firestore error")))
                 return@addSnapshotListener
             }
             
@@ -64,7 +64,7 @@ class HospitalRepositoryImpl @Inject constructor(
             batch.commit().await()
             Resource.Success(Unit)
         } catch (e: Exception) {
-            Resource.Error(e)
+            Resource.Error(com.example.bloodbank.domain.error.AppError.Unknown(e.message ?: "Seeding failed"))
         }
     }
 }

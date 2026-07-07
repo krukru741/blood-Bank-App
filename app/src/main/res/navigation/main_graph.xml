@@ -78,6 +78,13 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_activity_to_request_detail"
+            app:destination="@id/requestDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
     <!-- ── Profile ────────────────────────────────────────────────────────── -->
@@ -96,6 +103,13 @@
         <action
             android:id="@+id/action_profile_to_become_donor"
             app:destination="@id/becomeDonorFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_profile_to_donor_card"
+            app:destination="@id/donorCardFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
@@ -163,5 +177,12 @@
         android:name="com.example.bloodbank.presentation.more.EligibilityFragment"
         android:label="Eligibility Checklist"
         tools:layout="@layout/fragment_eligibility" />
+
+    <!-- ── Donor Card (full-screen) ──────────────────────────────────────── -->
+    <fragment
+        android:id="@+id/donorCardFragment"
+        android:name="com.example.bloodbank.presentation.profile.DonorCardFragment"
+        android:label="My Donor Card"
+        tools:layout="@layout/fragment_donor_card" />
 
 </navigation>

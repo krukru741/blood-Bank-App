@@ -143,10 +143,9 @@ class MainActivity : AppCompatActivity() {
         val isTopLevel = destination.id in topLevelDestinations
         
         
-        // Show filter icon and avatar only on HomeFragment
+        // Show the entire App Bar (Logo, Filter, Avatar) ONLY on HomeFragment
         val isHome = destination.id == R.id.homeFragment
-        binding.btnToolbarFilter.visibility = if (isHome) android.view.View.VISIBLE else android.view.View.GONE
-        binding.ivToolbarAvatar.visibility = if (isHome) android.view.View.VISIBLE else android.view.View.GONE
+        binding.appBarLayout.visibility = if (isHome) android.view.View.VISIBLE else android.view.View.GONE
 
         // Hide bottom navigation on full-screen destinations
         binding.bottomNav.visibility = if (isTopLevel) android.view.View.VISIBLE else android.view.View.GONE

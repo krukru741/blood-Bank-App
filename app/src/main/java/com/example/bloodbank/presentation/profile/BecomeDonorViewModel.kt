@@ -12,18 +12,22 @@ import com.example.bloodbank.presentation.common.AuthUiState
 import com.example.bloodbank.presentation.common.validation.FormValidator
 import com.example.bloodbank.data.remote.api.PsgcApiService
 import com.example.bloodbank.data.remote.api.dto.PsgcLocationDto
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Transaction
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 @HiltViewModel
 class BecomeDonorViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     private val userRepository: UserRepository,
-    private val psgcApiService: PsgcApiService
+    private val psgcApiService: PsgcApiService,
+    private val firestore: FirebaseFirestore
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<AuthUiState<Unit>>(AuthUiState.Idle)
@@ -108,19 +112,28 @@ class BecomeDonorViewModel @Inject constructor(
             _uiState.value = AuthUiState.Loading
             userRepository.getUserById(uid).collect { resource ->
                 if (resource is Resource.Success) {
+                    // Generate Donor ID if not already assigned
+                    val generatedDonorId = if (resource.data.donorId.isBlank()) {
+                        generateDonorId()
+                    } else {
+                        resource.data.donorId
+                    }
+
                     val updatedUser = resource.data.copy(
-                        bloodType        = BloodType.fromLabel(bloodTypeLabel),
-                        gender           = Gender.fromLabel(genderLabel),
-                        dateOfBirth      = dateOfBirth,
-                        weightKg         = weightText.toFloatOrNull(),
-                        lastDonationDate = lastDonationDate,
-                        role             = UserRole.DONOR,
-                        province         = province,
-                        city             = city,
-                        barangay         = barangay,
-                        street           = street,
-                        latitude         = latitude,
-                        longitude        = longitude
+                        bloodType            = BloodType.fromLabel(bloodTypeLabel),
+                        gender               = Gender.fromLabel(genderLabel),
+                        dateOfBirth          = dateOfBirth,
+                        weightKg             = weightText.toFloatOrNull(),
+                        lastDonationDate     = lastDonationDate,
+                        role                 = UserRole.DONOR,
+                        province             = province,
+                        city                 = city,
+                        barangay             = barangay,
+                        street               = street,
+                        latitude             = latitude,
+                        longitude            = longitude,
+                        donorId              = generatedDonorId,
+                        donorVerificationDate = System.currentTimeMillis()
                     )
                     userRepository.saveUserProfile(updatedUser).collect { saveResource ->
                         when (saveResource) {
@@ -131,6 +144,27 @@ class BecomeDonorViewModel @Inject constructor(
                     }
                 }
             }
+        }
+    }
+
+    /** Atomically increments the donor counter in Firestore and returns a padded ID like BBANK-000001 */
+    private suspend fun generateDonorId(): String {
+        return try {
+            val counterRef = firestore.collection("counters").document("donorCounter")
+            var newCount = 1L
+            firestore.runTransaction { transaction ->
+                val snapshot = transaction.get(counterRef)
+                newCount = if (snapshot.exists()) {
+                    (snapshot.getLong("count") ?: 0L) + 1L
+                } else {
+                    1L
+                }
+                transaction.set(counterRef, mapOf("count" to newCount))
+            }.await()
+            "BBANK-%06d".format(newCount)
+        } catch (e: Exception) {
+            // Fallback in case of network error
+            "BBANK-${System.currentTimeMillis() % 100000}"
         }
     }
 

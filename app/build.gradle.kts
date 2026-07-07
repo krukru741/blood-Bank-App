@@ -139,6 +139,10 @@ dependencies {
     // ── Location Services (GPS) ────────────────────────────────────────────────
     implementation("com.google.android.gms:play-services-location:21.3.0")
 
+    // ── QR Code Generator (offline, no API cost) ───────────────────────────────
+    implementation("com.google.zxing:core:3.5.3")
+    implementation("com.journeyapps:zxing-android-embedded:4.3.0")
+
     // ── Network (Retrofit for PSGC API) ────────────────────────────────────────
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.gson)
