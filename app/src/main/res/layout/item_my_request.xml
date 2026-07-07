@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_request"
+    style="@style/Widget.BloodBank.Card.Standard"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
+    android:clickable="true"
+    android:focusable="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp">
+
+        <!-- Patient Name -->
+        <TextView
+            android:id="@+id/tv_patient_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            tools:text="Maria Santos"
+            android:textColor="@color/on_surface"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tv_blood_type_badge" />
+
+        <!-- Blood Type Badge -->
+        <TextView
+            android:id="@+id/tv_blood_type_badge"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            tools:text="O+"
+            android:gravity="center"
+            android:background="@drawable/bg_blood_type_badge"
+            android:backgroundTint="@color/blood_red"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Hospital Info -->
+        <ImageView
+            android:id="@+id/iv_hospital_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="16dp"
+            android:src="@android:drawable/ic_menu_myplaces"
+            app:tint="@color/gray_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_patient_name" />
+
+        <TextView
+            android:id="@+id/tv_hospital"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            tools:text="Surigao del Sur Provincial Hospital"
+            android:textColor="@color/on_surface_variant"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@id/iv_hospital_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/iv_hospital_icon"
+            app:layout_constraintTop_toTopOf="@id/iv_hospital_icon" />
+
+        <!-- Quantity Info -->
+        <ImageView
+            android:id="@+id/iv_quantity_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="12dp"
+            android:src="@drawable/ic_blood_drop"
+            app:tint="@color/gray_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_hospital_icon" />
+
+        <TextView
+            android:id="@+id/tv_quantity"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            tools:text="Ilang bag: 2"
+            android:textColor="@color/on_surface_variant"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@id/iv_quantity_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/iv_quantity_icon"
+            app:layout_constraintTop_toTopOf="@id/iv_quantity_icon" />
+
+        <!-- Date Created -->
+        <ImageView
+            android:id="@+id/iv_date_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="12dp"
+            android:src="@android:drawable/ic_menu_recent_history"
+            app:tint="@color/gray_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_quantity_icon" />
+
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            tools:text="Posted: Oct 24, 2023"
+            android:textColor="@color/on_surface_variant"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@id/iv_date_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/iv_date_icon"
+            app:layout_constraintTop_toTopOf="@id/iv_date_icon" />
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="20dp"
+            android:background="#EEEEEE"
+            app:layout_constraintTop_toBottomOf="@id/iv_date_icon" />
+
+        <!-- Status Badge -->
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_status"
+            android:layout_width="wrap_content"
+            android:layout_height="52dp"
+            android:layout_marginTop="16dp"
+            tools:text="Pending"
+            android:textColor="@color/on_surface"
+            app:chipBackgroundColor="@color/surface_variant"
+            app:chipCornerRadius="26dp"
+            app:chipStrokeWidth="0dp"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_action"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="56dp"
+            android:text="View Details"
+            android:textColor="@color/blood_red"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/chip_status"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/chip_status" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

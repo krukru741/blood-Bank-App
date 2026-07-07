@@ -38,14 +38,29 @@ class BloodRequestAdapter(
 
         fun bind(request: BloodRequest) {
             with(binding) {
-                // ── Urgency color strip ────────────────────────────────────
-                urgencyStrip.setBackgroundResource(
-                    when (request.urgency) {
-                        UrgencyLevel.CRITICAL -> R.drawable.bg_urgency_critical
-                        UrgencyLevel.URGENT   -> R.drawable.bg_urgency_urgent
-                        UrgencyLevel.NORMAL   -> R.drawable.bg_urgency_normal
+                // ── Dynamic Card Styling (Material 3) ───────────────────────
+                val context = itemView.context
+                when (request.urgency) {
+                    UrgencyLevel.CRITICAL -> {
+                        cardBloodRequest.setCardBackgroundColor(context.getColor(R.color.blood_red_container))
+                        cardBloodRequest.strokeWidth = 0
+                        cardBloodRequest.cardElevation = 6f * context.resources.displayMetrics.density
+                        tvRequesterName.setTextColor(context.getColor(R.color.on_blood_red_container))
                     }
-                )
+                    UrgencyLevel.URGENT -> {
+                        cardBloodRequest.setCardBackgroundColor(context.getColor(R.color.accent_coral_container))
+                        cardBloodRequest.strokeWidth = 0
+                        cardBloodRequest.cardElevation = 4f * context.resources.displayMetrics.density
+                        tvRequesterName.setTextColor(context.getColor(R.color.on_accent_coral_container))
+                    }
+                    UrgencyLevel.NORMAL -> {
+                        cardBloodRequest.setCardBackgroundColor(context.getColor(R.color.white))
+                        cardBloodRequest.strokeWidth = (1f * context.resources.displayMetrics.density).toInt()
+                        cardBloodRequest.setStrokeColor(android.graphics.Color.parseColor("#E0E0E0"))
+                        cardBloodRequest.cardElevation = 2f * context.resources.displayMetrics.density
+                        tvRequesterName.setTextColor(context.getColor(R.color.on_surface))
+                    }
+                }
 
                 // ── Blood type badge ───────────────────────────────────────
                 tvBloodType.text = request.bloodType.label
