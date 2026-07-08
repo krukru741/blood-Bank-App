@@ -6,7 +6,7 @@
     android:id="@+id/coordinator_become_donor"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F7"
+    android:background="@color/surface"
     tools:context=".presentation.profile.BecomeDonorFragment">
 
     <!-- ── App Bar ──────────────────────────────────────────────────── -->
@@ -45,7 +45,7 @@
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginBottom="16dp"
-                app:cardCornerRadius="20dp"
+                app:cardCornerRadius="@dimen/corner_xl"
                 app:cardElevation="4dp"
                 app:strokeWidth="0dp"
                 app:cardBackgroundColor="@color/blood_red">
@@ -85,7 +85,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:text="Help save lives in your community. Your details will be visible to those in need."
-                            android:textColor="#CCFFFFFF"
+                            android:textColor="@color/text_on_primary_subtle"
                             android:textSize="12sp"
                             android:lineSpacingExtra="2dp" />
                     </LinearLayout>
@@ -98,10 +98,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginBottom="16dp"
-                app:cardCornerRadius="16dp"
+                app:cardCornerRadius="@dimen/corner_large"
                 app:cardElevation="2dp"
                 app:strokeWidth="0dp"
-                app:cardBackgroundColor="@color/white">
+                app:cardBackgroundColor="@color/surface">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -177,7 +177,7 @@
                         android:layout_marginBottom="14dp"
                         android:hint="@string/label_date_of_birth"
                         app:endIconMode="custom"
-                        app:endIconDrawable="@android:drawable/ic_menu_today">
+                        app:endIconDrawable="@drawable/ic_calendar_month">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/et_dob"
@@ -221,7 +221,7 @@
                         android:hint="@string/label_last_donation"
                         app:helperText="@string/hint_last_donation"
                         app:endIconMode="custom"
-                        app:endIconDrawable="@android:drawable/ic_menu_today">
+                        app:endIconDrawable="@drawable/ic_calendar_month">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/et_last_donation"
@@ -255,10 +255,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginBottom="24dp"
-                app:cardCornerRadius="16dp"
+                app:cardCornerRadius="@dimen/corner_large"
                 app:cardElevation="2dp"
                 app:strokeWidth="0dp"
-                app:cardBackgroundColor="@color/white">
+                app:cardBackgroundColor="@color/surface">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -297,10 +297,10 @@
                         android:layout_height="48dp"
                         android:layout_marginBottom="16dp"
                         android:text="Use My Current Location"
-                        app:icon="@android:drawable/ic_menu_mylocation"
+                        app:icon="@drawable/ic_my_location"
                         app:iconTint="@color/blood_red"
                         app:strokeColor="@color/blood_red"
-                        app:cornerRadius="10dp" />
+                        app:cornerRadius="@dimen/corner_medium" />
 
                     <!-- Province + City (side by side) -->
                     <LinearLayout
@@ -410,7 +410,7 @@
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                app:cornerRadius="14dp"
+                app:cornerRadius="@dimen/corner_large"
                 app:icon="@drawable/ic_blood_drop"
                 app:iconTint="@color/white"
                 app:iconGravity="textStart"
@@ -424,7 +424,7 @@
                 android:layout_marginTop="12dp"
                 android:visibility="gone"
                 app:indicatorColor="@color/blood_red"
-                app:trackColor="#E0E0E0" />
+                app:trackColor="@color/stroke_light" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

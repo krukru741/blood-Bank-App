@@ -1,0 +1,53 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="200dp"
+    android:viewportWidth="200"
+    android:viewportHeight="200">
+    
+    <!-- Background Circle -->
+    <path
+        android:fillColor="#11C62828"
+        android:pathData="M100,100 m-80,0 a80,80 0 1,1 160,0 a80,80 0 1,1 -160,0" />
+        
+    <!-- Clipboard Outline -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#E0E0E0"
+        android:strokeWidth="6"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M70,45 H60 C51.716,45 45,51.716 45,60 V150 C45,158.284 51.716,165 60,165 H140 C148.284,165 155,158.284 155,150 V60 C155,51.716 148.284,45 140,45 H130" />
+        
+    <!-- Clipboard Clip -->
+    <path
+        android:fillColor="#C62828"
+        android:pathData="M80,35 h40 v15 c0,2.761 -2.239,5 -5,5 H85 c-2.761,0 -5,-2.239 -5,-5 V35 z" />
+        
+    <!-- Clipboard Clip Top -->
+    <path
+        android:fillColor="#8E0000"
+        android:pathData="M85,30 h30 v5 h-30 z" />
+
+    <!-- Document Lines -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#E0E0E0"
+        android:strokeWidth="5"
+        android:strokeLineCap="round"
+        android:pathData="M75,80 h50 M75,100 h30 M75,120 h40" />
+
+    <!-- Magnifying Glass/Search Icon floating -->
+    <path
+        android:fillColor="#FF5F52"
+        android:pathData="M165,145 c-11.046,0 -20,-8.954 -20,-20 c0,-11.046 8.954,-20 20,-20 c11.046,0 20,8.954 20,20 c0,11.046 -8.954,20 -20,20 z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M165,115 c-5.523,0 -10,4.477 -10,10 c0,5.523 4.477,10 10,10 c5.523,0 10,-4.477 10,-10 c0,-5.523 -4.477,-10 -10,-10 z m5.5,14.5 l5,5" />
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="4"
+        android:strokeLineCap="round"
+        android:pathData="M172,132 l8,8" />
+
+</vector>

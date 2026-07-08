@@ -34,7 +34,7 @@
             android:layout_width="40dp"
             android:layout_height="2dp"
             android:layout_marginHorizontal="8dp"
-            android:background="#DDDDDD" />
+            android:background="@color/stroke_light" />
 
         <TextView
             android:id="@+id/tv_step_2"
@@ -42,13 +42,13 @@
             android:layout_height="wrap_content"
             android:text="2. Location"
             android:textSize="16sp"
-            android:textColor="#888888" />
+            android:textColor="@color/icon_gray" />
 
         <View
             android:layout_width="40dp"
             android:layout_height="2dp"
             android:layout_marginHorizontal="8dp"
-            android:background="#DDDDDD" />
+            android:background="@color/stroke_light" />
 
         <TextView
             android:id="@+id/tv_step_3"
@@ -56,7 +56,7 @@
             android:layout_height="wrap_content"
             android:text="3. Review"
             android:textSize="16sp"
-            android:textColor="#888888" />
+            android:textColor="@color/icon_gray" />
     </LinearLayout>
 
     <androidx.core.widget.NestedScrollView
@@ -192,7 +192,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:text="Pindutin ang map o gamitin ang GPS"
-                    android:textColor="#666666"
+                    android:textColor="@color/text_secondary"
                     android:textSize="16sp"
                     app:layout_constraintTop_toBottomOf="@id/til_hospital" />
                 
@@ -205,7 +205,7 @@
                     android:layout_marginTop="8dp"
                     android:minHeight="48dp"
                     android:text="Use GPS"
-                    app:icon="@android:drawable/ic_menu_mylocation"
+                    app:icon="@drawable/ic_my_location"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/btn_pick_map"
                     app:layout_constraintTop_toBottomOf="@id/tv_map_hint" />
@@ -219,7 +219,7 @@
                     android:layout_marginTop="8dp"
                     android:minHeight="48dp"
                     android:text="Map"
-                    app:icon="@android:drawable/ic_dialog_map"
+                    app:icon="@drawable/ic_map"
                     app:layout_constraintStart_toEndOf="@id/btn_use_location"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_map_hint" />
@@ -458,7 +458,7 @@
             android:layout_height="48dp"
             android:layout_gravity="top|start"
             android:layout_margin="16dp"
-            android:src="@android:drawable/ic_menu_close_clear_cancel"
+            android:src="@drawable/ic_close"
             android:background="?attr/selectableItemBackgroundBorderless"
             app:tint="#444444" />
     </FrameLayout>

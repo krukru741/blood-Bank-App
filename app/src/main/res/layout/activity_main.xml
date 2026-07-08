@@ -70,17 +70,17 @@
                         android:layout_height="32dp"
                         android:layout_marginEnd="16dp"
                         android:background="?attr/selectableItemBackgroundBorderless"
-                        android:src="@android:drawable/ic_menu_sort_by_size"
+                        android:src="@drawable/ic_sort"
                         android:visibility="gone"
-                        app:tint="#555555" />
+                        app:tint="@color/text_hint" />
 
                     <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/iv_toolbar_avatar"
                         android:layout_width="32dp"
                         android:layout_height="32dp"
                         android:scaleType="centerCrop"
-                        android:src="@android:drawable/ic_menu_my_calendar"
-                        android:background="#E0E0E0"
+                        android:src="@drawable/ic_calendar_month"
+                        android:background="@color/stroke_light"
                         app:shapeAppearanceOverlay="@style/ShapeAppearance.App.CircleImageView"
                         android:clickable="true"
                         android:focusable="true"
@@ -110,7 +110,7 @@
         android:background="@color/white"
         app:itemIconTint="@color/selector_bottom_nav"
         app:itemTextColor="@color/selector_bottom_nav"
-        app:labelVisibilityMode="selected"
+        app:labelVisibilityMode="labeled"
         app:elevation="16dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

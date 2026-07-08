@@ -32,9 +32,9 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:src="@android:drawable/ic_menu_revert"
+                    android:src="@drawable/ic_arrow_back"
                     android:rotation="180"
-                    app:tint="@android:color/white"
+                    app:tint="@color/white"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     android:layout_marginStart="8dp" />
@@ -62,7 +62,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     tools:text="Maria Santos"
-                    android:textColor="@android:color/white"
+                    android:textColor="@color/white"
                     android:textSize="22sp"
                     android:textStyle="bold"
                     android:gravity="center"
@@ -79,7 +79,7 @@
                     android:layout_marginEnd="32dp"
                     android:gravity="center"
                     tools:text="📍 Surigao del Sur Provincial Hospital"
-                    android:textColor="#F5F5F5"
+                    android:textColor="@color/surface_variant"
                     android:textSize="14sp"
                     app:layout_constraintTop_toBottomOf="@id/tv_patient_name"
                     app:layout_constraintStart_toStartOf="parent"
@@ -90,8 +90,8 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:src="@android:drawable/ic_menu_edit"
-                    app:tint="@android:color/white"
+                    android:src="@drawable/ic_edit"
+                    app:tint="@color/white"
                     android:visibility="gone"
                     tools:visibility="visible"
                     app:layout_constraintTop_toTopOf="parent"
@@ -106,10 +106,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="-24dp"
-                app:cardCornerRadius="16dp"
+                app:cardCornerRadius="@dimen/corner_large"
                 app:cardElevation="6dp"
                 app:strokeWidth="0dp"
-                android:backgroundTint="@android:color/white">
+                android:backgroundTint="@color/white">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -160,7 +160,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Needed"
-                                android:textColor="#888888"
+                                android:textColor="@color/icon_gray"
                                 android:textSize="12sp" />
                         </LinearLayout>
 
@@ -175,7 +175,7 @@
                             <ImageView
                                 android:layout_width="32dp"
                                 android:layout_height="32dp"
-                                android:src="@android:drawable/ic_dialog_alert"
+                                android:src="@drawable/ic_warning"
                                 app:tint="@color/urgency_critical" />
 
                             <TextView
@@ -192,7 +192,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Status"
-                                android:textColor="#888888"
+                                android:textColor="@color/icon_gray"
                                 android:textSize="12sp" />
                         </LinearLayout>
                     </LinearLayout>
@@ -200,7 +200,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="#EEEEEE"
+                        android:background="@color/divider_light"
                         android:layout_marginTop="28dp"
                         android:layout_marginBottom="20dp" />
                         
@@ -218,7 +218,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         tools:text="Patient needs blood for emergency surgery. Please respond immediately if you have a matching blood type."
-                        android:textColor="#666666"
+                        android:textColor="@color/text_secondary"
                         android:lineSpacingExtra="6dp"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -231,7 +231,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="@android:color/white"
+        android:background="@color/white"
         android:elevation="16dp"
         android:orientation="vertical"
         android:padding="20dp">
@@ -244,12 +244,12 @@
             android:layout_height="56dp"
             android:backgroundTint="@color/blood_red"
             android:text="🩸 I WANT TO DONATE"
-            android:textColor="@android:color/white"
+            android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold"
             android:visibility="gone"
             tools:visibility="visible"
-            app:cornerRadius="28dp" />
+            app:cornerRadius="@dimen/corner_pill" />
 
         <!-- For MATCHED status: Contact Options -->
         <LinearLayout
@@ -286,9 +286,9 @@
                     android:text="Call"
                     android:textColor="@color/blood_red"
                     app:strokeColor="@color/blood_red"
-                    app:icon="@android:drawable/ic_menu_call"
+                    app:icon="@drawable/ic_menu_phone"
                     app:iconTint="@color/blood_red"
-                    app:cornerRadius="28dp" />
+                    app:cornerRadius="@dimen/corner_pill" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_text_donor"
@@ -299,8 +299,8 @@
                     android:layout_marginStart="8dp"
                     android:text="Message"
                     android:backgroundTint="@color/blood_red"
-                    app:icon="@android:drawable/ic_dialog_email"
-                    app:cornerRadius="28dp" />
+                    app:icon="@drawable/ic_email"
+                    app:cornerRadius="@dimen/corner_pill" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

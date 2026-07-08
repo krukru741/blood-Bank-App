@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:title="Edit Profile"
-            app:navigationIcon="@android:drawable/ic_menu_revert"
+            app:navigationIcon="@drawable/ic_arrow_back"
             app:titleTextColor="@color/on_surface" />
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -48,8 +48,8 @@
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
                     android:background="#F5F5F5"
-                    android:src="@android:drawable/ic_menu_gallery"
-                    android:tint="#BDBDBD"
+                    android:src="@drawable/ic_photo"
+                    android:tint="@color/icon_gray"
                     android:padding="32dp"
                     app:shapeAppearanceOverlay="@style/ShapeAppearance.App.CircleImageView" />
 
@@ -59,7 +59,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|end"
-                    android:src="@android:drawable/ic_menu_camera"
+                    android:src="@drawable/ic_photo_camera"
                     app:fabSize="mini"
                     app:backgroundTint="@color/blood_red"
                     app:tint="@color/white"
@@ -74,7 +74,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Full Name"
                 android:layout_marginBottom="16dp"
-                app:startIconDrawable="@android:drawable/ic_menu_edit">
+                app:startIconDrawable="@drawable/ic_edit">
                 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_full_name"
@@ -90,7 +90,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Phone Number"
                 android:layout_marginBottom="16dp"
-                app:startIconDrawable="@android:drawable/ic_menu_call">
+                app:startIconDrawable="@drawable/ic_menu_phone">
                 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_phone"
@@ -106,7 +106,7 @@
                 android:layout_height="wrap_content"
                 android:hint="City/Municipality"
                 android:layout_marginBottom="16dp"
-                app:startIconDrawable="@android:drawable/ic_menu_mapmode">
+                app:startIconDrawable="@drawable/ic_map">
                 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_city"
@@ -124,7 +124,7 @@
                 android:hint="Weight (kg)"
                 android:layout_marginBottom="24dp"
                 android:visibility="gone"
-                app:startIconDrawable="@android:drawable/ic_menu_info_details"
+                app:startIconDrawable="@drawable/ic_info"
                 tools:visibility="visible">
                 
                 <com.google.android.material.textfield.TextInputEditText
@@ -141,7 +141,7 @@
                 android:layout_height="56dp"
                 android:text="Save Changes"
                 android:textSize="16sp"
-                app:cornerRadius="12dp"
+                app:cornerRadius="@dimen/corner_medium"
                 app:backgroundTint="@color/blood_red" />
 
         </LinearLayout>

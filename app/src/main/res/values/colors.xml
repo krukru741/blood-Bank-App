@@ -1,35 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- ── Brand Colors (Material 3 Compliant) ───────────────────────────── -->
-    <color name="blood_red">#C62828</color>       <!-- Primary: Deep medical red -->
-    <color name="blood_red_dark">#8E0000</color>  <!-- Dark variant for Status Bar -->
-    <color name="blood_red_light">#FF5F52</color> <!-- Light accents / highlights -->
-    
-    <!-- M3 Container Colors (Important for Cards & Dynamic Fields) -->
-    <color name="blood_red_container">#FFEFF0</color> <!-- Soft red background for requests -->
-    <color name="on_blood_red_container">#5C0000</color> <!-- Dark red text for inside containers -->
 
-    <color name="accent_coral">#FF6F61</color>    <!-- Secondary accent -->
+    <!-- ── Brand Colors (Material 3 Compliant) ───────────────────────────── -->
+    <!-- UNIFIED: Use ONLY blood_red (#C62828) as primary. #B71C1C removed.  -->
+    <color name="blood_red">#C62828</color>         <!-- Primary: Deep medical red -->
+    <color name="blood_red_dark">#8E0000</color>    <!-- Dark variant for Status Bar -->
+    <color name="blood_red_light">#FF5F52</color>   <!-- Light accents / highlights -->
+
+    <!-- M3 Container Colors (Important for Cards & Dynamic Fields) -->
+    <color name="blood_red_container">#FFEFF0</color>    <!-- Soft red bg for request cards -->
+    <color name="on_blood_red_container">#5C0000</color> <!-- Dark red text inside containers -->
+
+    <color name="accent_coral">#FF6F61</color>           <!-- Secondary accent -->
     <color name="accent_coral_container">#FFEDEA</color>
     <color name="on_accent_coral_container">#650B00</color>
 
-    <!-- ── Neutral / Backgrounds (Family-Friendly High Contrast) ─────────── -->
+    <!-- ── Neutral / Backgrounds ─────────────────────────────────────────── -->
     <color name="white">#FFFFFF</color>
     <color name="off_white">#FAFAFA</color>
-    <color name="surface">#FCFCFC</color>         <!-- Cleaner, brighter surface -->
-    <color name="on_surface">#1A1A1A</color>      <!-- Deeper black for ultra-readable text -->
-    <color name="surface_variant">#F5F5F5</color>  <!-- For text field background blocks -->
-    <color name="on_surface_variant">#535353</color> <!-- For field hints/labels -->
+    <color name="surface">#FCFCFC</color>            <!-- Cleaner, brighter surface -->
+    <color name="on_surface">#1A1A1A</color>         <!-- Ultra-readable body text -->
+    <color name="surface_variant">#F5F5F5</color>    <!-- Text field background blocks -->
+    <color name="on_surface_variant">#535353</color> <!-- Field hints/labels -->
     <color name="gray_text">#757575</color>
 
+    <!-- ── Previously Hardcoded Grays (Now Named) ────────────────────────── -->
+    <!-- Replace all inline #888888, #555555, #666666 references with these  -->
+    <color name="icon_gray">#888888</color>          <!-- Icons, dividers, placeholders -->
+    <color name="text_secondary">#666666</color>     <!-- Secondary body text -->
+    <color name="text_hint">#555555</color>          <!-- Subtle hint / location text -->
+    <color name="divider_light">#EEEEEE</color>      <!-- Card internal dividers -->
+    <color name="stroke_light">#E0E0E0</color>       <!-- Input field strokes, separators -->
+
+    <!-- ── Previously Hardcoded Blue (Now Named) ─────────────────────────── -->
+    <color name="info_blue_light">#1976D2</color>    <!-- Distance labels, hospital FAB -->
+
+    <!-- ── Fixed Badge Colors ────────────────────────────────────────────── -->
+    <!-- OLD: #40FFD700 (40% gold on white = nearly invisible)               -->
+    <!-- NEW: fully opaque amber — WCAG AA compliant on white bg             -->
+    <color name="verified_gold">#F9A825</color>           <!-- Verified Donor badge fill -->
+    <color name="verified_gold_bg">#FFF8E1</color>        <!-- Soft amber badge background -->
+    <color name="on_verified_gold">#4E2800</color>        <!-- Dark text on gold bg -->
+
+    <!-- ── Fixed Tagline Contrast ────────────────────────────────────────── -->
+    <!-- OLD: #CCFFFFFF (80% white) — borderline WCAG on deep red gradient   -->
+    <!-- NEW: #E6FFFFFF (90% white) — safely passes WCAG AA                  -->
+    <color name="text_on_primary_subtle">#E6FFFFFF</color> <!-- Taglines, subtitles on red bg -->
+
     <!-- ── Semantic / Status Colors ──────────────────────────────────────── -->
-    <color name="success_green">#1B5E20</color>   <!-- Darkened slightly for accessibility text contrast -->
-    <color name="warning_amber">#E65100</color>   <!-- Changed from bright yellow to deep amber for readability -->
+    <color name="success_green">#1B5E20</color>     <!-- Darkened for accessibility contrast -->
+    <color name="warning_amber">#E65100</color>     <!-- Deep amber — readable on white -->
     <color name="error_red">#B00020</color>
     <color name="info_blue">#0D47A1</color>
 
     <!-- ── Urgency Indicators (High Visibility Badges) ───────────────────── -->
-    <color name="urgency_critical">#D50000</color> <!-- Eye-catching medical emergency red -->
-    <color name="urgency_urgent">#FF6D00</color>   <!-- Highly visible orange -->
-    <color name="urgency_normal">#00C853</color>   <!-- Clean green -->
+    <color name="urgency_critical">#D50000</color>  <!-- Medical emergency red -->
+    <color name="urgency_urgent">#FF6D00</color>    <!-- Highly visible orange -->
+    <color name="urgency_normal">#00C853</color>    <!-- Clear green -->
+
+    <!-- ── Brand Colors ──────────────────────────────────────────────────── -->
+    <color name="brand_facebook">#1877F2</color>
+
+    <!-- ── Other Added Colors ────────────────────────────────────────────── -->
+    <color name="dark_gray">#424242</color>
+    <color name="black_80">#CC000000</color>
+    <color name="black_translucent">#22000000</color>
+    <color name="white_translucent">#EEFFFFFF</color>
+    <color name="badge_bronze">#CD7F32</color>
+    <color name="badge_silver">#C0C0C0</color>
+    <color name="orange_light">#FFF3E0</color>
+    <color name="orange_stroke">#FFE0B2</color>
+    <color name="orange">#FF9800</color>
+    <color name="orange_translucent">#1AFF9800</color>
+    <color name="red_translucent">#1AE53935</color>
+    <color name="purple">#6A1B9A</color>
+    <color name="purple_translucent">#1A9C27B0</color>
+    <color name="green_light">#4CAF50</color>
+    <color name="divider_extra_light">#F0F0F0</color>
+
 </resources>

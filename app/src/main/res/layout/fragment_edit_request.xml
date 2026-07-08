@@ -185,7 +185,7 @@
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                app:cornerRadius="12dp" />
+                app:cornerRadius="@dimen/corner_medium" />
 
             <!-- Progress -->
             <com.google.android.material.progressindicator.LinearProgressIndicator
@@ -195,7 +195,7 @@
                 android:layout_marginTop="4dp"
                 android:visibility="gone"
                 app:indicatorColor="@color/blood_red"
-                app:trackColor="#E0E0E0" />
+                app:trackColor="@color/stroke_light" />
 
             <Space android:layout_width="match_parent" android:layout_height="32dp" />
 

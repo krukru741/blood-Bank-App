@@ -51,7 +51,7 @@
             android:layout_marginTop="12dp"
             android:gravity="center"
             android:text="You need to be a registered Blood Donor to see requests and start saving lives."
-            android:textColor="#888888"
+            android:textColor="@color/icon_gray"
             android:textSize="16sp" />
             
         <com.google.android.material.button.MaterialButton
@@ -61,7 +61,7 @@
             android:layout_marginTop="32dp"
             android:text="Become a Donor"
             android:backgroundTint="@color/blood_red"
-            app:cornerRadius="8dp" />
+            app:cornerRadius="@dimen/corner_small" />
     </LinearLayout>
 
     <!-- Donor State (List of Accepted Donations) -->
@@ -77,7 +77,8 @@
             android:layout_height="match_parent"
             android:clipToPadding="false"
             android:paddingTop="16dp"
-            android:paddingBottom="80dp" />
+            android:paddingBottom="80dp"
+            android:layoutAnimation="@anim/layout_animation_fall_down" />
 
         <!-- Empty State for Donors with 0 activity -->
         <LinearLayout
@@ -112,7 +113,7 @@
                 android:layout_marginTop="12dp"
                 android:gravity="center"
                 android:text="Your donation journey starts here. Find a patient in need and make a difference today."
-                android:textColor="#888888"
+                android:textColor="@color/icon_gray"
                 android:textSize="16sp" />
                 
             <com.google.android.material.button.MaterialButton
@@ -124,7 +125,7 @@
                 android:text="Find Requests"
                 app:strokeColor="@color/blood_red"
                 android:textColor="@color/blood_red"
-                app:cornerRadius="8dp" />
+                app:cornerRadius="@dimen/corner_small" />
         </LinearLayout>
     </RelativeLayout>
 

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- ── Spacing System (8dp Grid) ──────────────────────────────────────── -->
+    <dimen name="spacing_xs">4dp</dimen>
+    <dimen name="spacing_small">8dp</dimen>
+    <dimen name="spacing_medium">16dp</dimen>
+    <dimen name="spacing_large">24dp</dimen>
+    <dimen name="spacing_xl">32dp</dimen>
+
+    <!-- ── Standardized Corner Radii ──────────────────────────────────────── -->
+    <!-- Use corner_small   → chips, small badges, icon containers           -->
+    <!-- Use corner_medium  → buttons, input fields                          -->
+    <!-- Use corner_large   → cards, bottom sheets, dialogs                  -->
+    <!-- Use corner_pill    → FABs, CTA buttons, toggle buttons              -->
+    <dimen name="corner_small">8dp</dimen>
+    <dimen name="corner_medium">12dp</dimen>
+    <dimen name="corner_large">16dp</dimen>
+    <dimen name="corner_xl">20dp</dimen>
+    <dimen name="corner_pill">28dp</dimen>
+
+    <!-- ── Component Heights ──────────────────────────────────────────────── -->
+    <dimen name="button_height_standard">56dp</dimen>
+    <dimen name="button_height_compact">40dp</dimen>
+    <dimen name="bottom_nav_padding">100dp</dimen>
+    <dimen name="form_padding_horizontal">20dp</dimen>
+
+    <!-- ── Card Elevation Scale ───────────────────────────────────────────── -->
+    <dimen name="elevation_none">0dp</dimen>
+    <dimen name="elevation_low">2dp</dimen>
+    <dimen name="elevation_medium">4dp</dimen>
+    <dimen name="elevation_high">8dp</dimen>
+
+</resources>

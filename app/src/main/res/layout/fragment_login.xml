@@ -46,7 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
             android:text="@string/app_tagline"
-            android:textColor="#CCFFFFFF"
+            android:textColor="@color/text_on_primary_subtle"
             android:textSize="14sp" />
 
     </LinearLayout>
@@ -68,7 +68,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingHorizontal="8dp">
+            android:paddingHorizontal="@dimen/form_padding_horizontal">
 
             <!-- Title -->
             <TextView
@@ -87,7 +87,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:text="Sign in to continue saving lives"
-                android:textColor="#757575"
+                android:textColor="@color/gray_text"
                 android:textSize="14sp" />
 
             <!-- Email Label -->
@@ -96,7 +96,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:text="EMAIL"
-                android:textColor="#9E9E9E"
+                android:textColor="@color/gray_text"
                 android:textSize="12sp"
                 android:textStyle="bold"
                 android:letterSpacing="0.05" />
@@ -127,7 +127,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:text="PASSWORD"
-                android:textColor="#9E9E9E"
+                android:textColor="@color/gray_text"
                 android:textSize="12sp"
                 android:textStyle="bold"
                 android:letterSpacing="0.05" />
@@ -166,23 +166,26 @@
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
                     android:text="Remember me"
-                    android:textColor="#757575"
+                    android:textColor="@color/gray_text"
                     android:textSize="14sp"
-                    android:buttonTint="#9E9E9E" />
+                    android:buttonTint="@color/gray_text" />
 
-                <TextView
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_forgot_password"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:text="Forgot password?"
-                    android:textColor="#B71C1C"
+                    android:textColor="@color/blood_red"
                     android:textSize="14sp"
                     android:textStyle="bold"
-                    android:background="?attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:focusable="true" />
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:minHeight="0dp"
+                    android:minWidth="0dp"
+                    android:paddingHorizontal="4dp" />
             </RelativeLayout>
 
             <!-- Login button -->
@@ -192,12 +195,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:layout_marginTop="24dp"
-                android:backgroundTint="#B71C1C"
+                android:backgroundTint="@color/blood_red"
                 android:text="Sign In"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                app:cornerRadius="12dp"
+                app:cornerRadius="@dimen/corner_medium"
                 app:elevation="4dp" />
 
             <!-- Progress indicator (hidden by default) -->
@@ -208,7 +211,7 @@
                 android:layout_marginTop="4dp"
                 android:visibility="gone"
                 app:indicatorColor="@color/blood_red"
-                app:trackColor="#E0E0E0" />
+                app:trackColor="@color/stroke_light" />
 
             <!-- Divider -->
             <LinearLayout
@@ -222,21 +225,21 @@
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:layout_weight="1"
-                    android:background="#E0E0E0" />
+                    android:background="@color/stroke_light" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="12dp"
                     android:text="or continue with"
-                    android:textColor="#BDBDBD"
+                    android:textColor="@color/icon_gray"
                     android:textSize="13sp" />
 
                 <View
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:layout_weight="1"
-                    android:background="#E0E0E0" />
+                    android:background="@color/stroke_light" />
 
             </LinearLayout>
 
@@ -249,18 +252,14 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_facebook"
-                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    style="@style/Widget.Material3.Button"
                     android:layout_width="0dp"
                     android:layout_height="56dp"
                     android:layout_weight="1"
                     android:layout_marginEnd="8dp"
                     android:text="Facebook"
-                    android:textColor="#424242"
-                    app:icon="@drawable/ic_facebook"
-                    app:iconTint="@null"
-                    app:iconGravity="textStart"
-                    app:cornerRadius="12dp"
-                    app:strokeColor="#E0E0E0" />
+                    app:cornerRadius="@dimen/corner_medium"
+                    app:backgroundTint="@color/brand_facebook" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_google"
@@ -270,12 +269,12 @@
                     android:layout_weight="1"
                     android:layout_marginStart="8dp"
                     android:text="Google"
-                    android:textColor="#424242"
+                    android:textColor="@color/dark_gray"
                     app:icon="@drawable/ic_google"
                     app:iconTint="@null"
                     app:iconGravity="textStart"
-                    app:cornerRadius="12dp"
-                    app:strokeColor="#E0E0E0" />
+                    app:cornerRadius="@dimen/corner_medium"
+                    app:strokeColor="@color/stroke_light" />
             </LinearLayout>
 
             <!-- Create Account Link -->
@@ -290,20 +289,23 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Don't have an account? "
-                    android:textColor="#9E9E9E"
+                    android:textColor="@color/gray_text"
                     android:textSize="14sp" />
 
-                <TextView
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_create_account"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Sign up"
-                    android:textColor="#B71C1C"
+                    android:textColor="@color/blood_red"
                     android:textSize="14sp"
                     android:textStyle="bold"
-                    android:background="?attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:focusable="true" />
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:minHeight="0dp"
+                    android:minWidth="0dp"
+                    android:paddingHorizontal="4dp" />
             </LinearLayout>
 
             <Space android:layout_height="32dp" android:layout_width="match_parent" />

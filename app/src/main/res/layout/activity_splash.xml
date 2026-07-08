@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:text="Save Lives, Donate Blood"
-        android:textColor="#E0E0E0"
+        android:textColor="@color/text_on_primary_subtle"
         android:textSize="14sp"
         app:layout_constraintTop_toBottomOf="@id/tv_app_name"
         app:layout_constraintStart_toStartOf="parent"

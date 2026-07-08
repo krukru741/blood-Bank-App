@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:text="Create your account · Save a life"
-            android:textColor="#CCFFFFFF"
+            android:textColor="@color/text_on_primary_subtle"
             android:textSize="13sp" />
 
     </LinearLayout>
@@ -68,7 +68,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/label_full_name"
-                app:startIconDrawable="@android:drawable/ic_menu_my_calendar">
+                app:startIconDrawable="@drawable/ic_calendar_month">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_full_name"
@@ -87,7 +87,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:hint="@string/label_email"
-                app:startIconDrawable="@android:drawable/ic_dialog_email">
+                app:startIconDrawable="@drawable/ic_email">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_email"
@@ -106,7 +106,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:hint="@string/label_phone_number"
-                app:startIconDrawable="@android:drawable/ic_menu_call">
+                app:startIconDrawable="@drawable/ic_menu_phone">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_phone"
@@ -125,7 +125,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:hint="@string/label_password"
-                app:startIconDrawable="@android:drawable/ic_lock_lock"
+                app:startIconDrawable="@drawable/ic_lock"
                 app:endIconMode="password_toggle"
                 app:helperText="Min. 8 characters with numbers and letters">
 
@@ -146,7 +146,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:hint="@string/label_confirm_password"
-                app:startIconDrawable="@android:drawable/ic_lock_lock"
+                app:startIconDrawable="@drawable/ic_lock"
                 app:endIconMode="password_toggle">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -166,7 +166,7 @@
                 android:layout_marginTop="16dp"
                 android:text="I agree to the Terms &amp; Conditions and consent to the processing of my data."
                 android:textSize="13sp"
-                android:textColor="#757575"
+                android:textColor="@color/gray_text"
                 app:buttonTint="@color/blood_red" />
 
             <!-- Register Button -->
@@ -181,7 +181,7 @@
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                app:cornerRadius="12dp" />
+                app:cornerRadius="@dimen/corner_medium" />
 
             <!-- Back to Login -->
             <LinearLayout
@@ -195,7 +195,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Already have an account? "
-                    android:textColor="#757575"
+                    android:textColor="@color/gray_text"
                     android:textSize="14sp" />
 
                 <TextView
@@ -216,7 +216,7 @@
                 android:layout_marginTop="16dp"
                 android:visibility="gone"
                 app:indicatorColor="@color/blood_red"
-                app:trackColor="#E0E0E0" />
+                app:trackColor="@color/stroke_light" />
 
             <Space android:layout_height="32dp" android:layout_width="match_parent" />
         </LinearLayout>
