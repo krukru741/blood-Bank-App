@@ -202,6 +202,7 @@ class HomeFragment : Fragment() {
             webViewClient = object : WebViewClient() {
                 override fun onPageFinished(view: android.webkit.WebView, url: String) {
                     super.onPageFinished(view, url)
+                    if (_binding == null) return
                     val state = viewModel.uiState.value
                     updateMapMarkers(state.filteredRequests, state.hospitals)
                 }
@@ -405,8 +406,13 @@ class HomeFragment : Fragment() {
                 put("type", "MY_LOCATION")
             })
         }
+        
+        if (_binding == null) return
+        
         binding.webViewMap.post {
-            binding.webViewMap.loadUrl("javascript:updateMarkers($jsonArray)")
+            if (_binding != null) {
+                binding.webViewMap.loadUrl("javascript:updateMarkers($jsonArray)")
+            }
         }
     }
 }
