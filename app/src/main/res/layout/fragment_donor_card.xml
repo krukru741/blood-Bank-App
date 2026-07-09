@@ -79,11 +79,13 @@
                             android:layout_height="84dp"
                             android:layout_marginBottom="12dp"
                             android:src="@drawable/ic_nav_profile"
-                            android:scaleType="centerCrop"
-                            android:background="@color/blood_red_dark"
+                            app:tint="@color/white"
+                            android:scaleType="centerInside"
+                            android:padding="16dp"
+                            android:background="@color/white_translucent"
                             app:shapeAppearanceOverlay="@style/ShapeAppearance.App.CircleImageView"
-                            app:strokeColor="@color/white"
-                            app:strokeWidth="2.5dp" />
+                            app:strokeColor="@color/white_translucent"
+                            app:strokeWidth="1dp" />
 
                         <!-- Name -->
                         <TextView
@@ -93,21 +95,21 @@
                             android:text="Donor Name"
                             android:textColor="@color/white"
                             android:textStyle="bold"
-                            android:textSize="20sp"
-                            android:layout_marginBottom="6dp" />
+                            android:textSize="22sp"
+                            android:layout_marginBottom="8dp" />
 
                         <!-- Blood Type -->
                         <TextView
                             android:id="@+id/tv_card_blood_type"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/bg_blood_type_badge"
-                            android:paddingHorizontal="18dp"
-                            android:paddingVertical="5dp"
-                            android:text="O+"
-                            android:textColor="@color/white"
+                            android:background="@drawable/bg_pill_white"
+                            android:paddingHorizontal="16dp"
+                            android:paddingVertical="4dp"
+                            android:text="Blood Type O+"
+                            android:textColor="@color/blood_red"
                             android:textStyle="bold"
-                            android:textSize="17sp" />
+                            android:textSize="14sp" />
                     </LinearLayout>
 
                     <!-- ── Card Body — Clean White ─────────────────────────── -->
@@ -125,9 +127,7 @@
                             android:layout_height="48dp"
                             android:orientation="horizontal"
                             android:gravity="center_vertical"
-                            android:background="@color/off_white"
-                            android:paddingHorizontal="14dp"
-                            android:layout_marginBottom="8dp">
+                            android:paddingHorizontal="4dp">
 
                             <TextView
                                 android:layout_width="0dp"
@@ -147,15 +147,15 @@
                                 android:textSize="14sp" />
                         </LinearLayout>
 
+                        <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/stroke_light" />
+
                         <!-- Registration Date -->
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="48dp"
                             android:orientation="horizontal"
                             android:gravity="center_vertical"
-                            android:background="@color/off_white"
-                            android:paddingHorizontal="14dp"
-                            android:layout_marginBottom="8dp">
+                            android:paddingHorizontal="4dp">
 
                             <TextView
                                 android:layout_width="0dp"
@@ -171,8 +171,11 @@
                                 android:layout_height="wrap_content"
                                 android:text="Jul 3, 2026"
                                 android:textColor="@color/on_surface"
-                                android:textSize="13sp" />
+                                android:textStyle="bold"
+                                android:textSize="14sp" />
                         </LinearLayout>
+
+                        <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/stroke_light" />
 
                         <!-- Status -->
                         <LinearLayout
@@ -180,8 +183,7 @@
                             android:layout_height="48dp"
                             android:orientation="horizontal"
                             android:gravity="center_vertical"
-                            android:background="@color/off_white"
-                            android:paddingHorizontal="14dp"
+                            android:paddingHorizontal="4dp"
                             android:layout_marginBottom="20dp">
 
                             <TextView
@@ -209,27 +211,37 @@
                             android:layout_gravity="center_horizontal"
                             android:text="SCAN TO VERIFY"
                             android:textColor="@color/gray_text"
-                            android:textSize="11sp"
+                            android:textSize="12sp"
+                            android:textStyle="bold"
                             android:letterSpacing="0.15"
-                            android:layout_marginBottom="10dp" />
+                            android:layout_marginBottom="12dp" />
 
-                        <ImageView
-                            android:id="@+id/iv_qr_code"
-                            android:layout_width="156dp"
-                            android:layout_height="156dp"
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
-                            android:padding="4dp"
-                            android:background="@color/white"
-                            android:layout_marginBottom="16dp" />
+                            android:layout_marginBottom="24dp"
+                            app:cardElevation="2dp"
+                            app:cardCornerRadius="12dp"
+                            app:strokeColor="@color/stroke_light"
+                            app:strokeWidth="1dp">
+                            
+                            <ImageView
+                                android:id="@+id/iv_qr_code"
+                                android:layout_width="160dp"
+                                android:layout_height="160dp"
+                                android:padding="12dp"
+                                android:background="@color/white" />
+                        </com.google.android.material.card.MaterialCardView>
 
                         <!-- Footer Note -->
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
-                            android:text="Blood Bank App — Prototype Verification Card"
+                            android:text="Blood Bank App • Verification Card"
                             android:textColor="@color/gray_text"
-                            android:textSize="10sp"
+                            android:textSize="11sp"
                             android:gravity="center"
                             android:layout_marginBottom="4dp" />
 
@@ -241,10 +253,12 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_share_card"
                 android:layout_width="match_parent"
-                android:layout_height="52dp"
+                android:layout_height="56dp"
                 android:layout_marginBottom="8dp"
-                android:text="📤  Share Donor Card"
-                android:textSize="15sp"
+                android:text="Share Donor Card"
+                app:icon="@drawable/ic_menu_share"
+                app:iconGravity="textStart"
+                android:textSize="16sp"
                 android:textStyle="bold"
                 app:backgroundTint="@color/blood_red"
                 app:cornerRadius="@dimen/corner_medium"

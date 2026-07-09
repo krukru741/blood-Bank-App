@@ -20,26 +20,44 @@
             android:orientation="vertical">
 
             <!-- ── Profile Header (gradient bg) ──────────────────────────── -->
-            <LinearLayout
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_gradient_auth"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:paddingTop="32dp"
-                android:paddingBottom="48dp"
-                android:paddingHorizontal="24dp">
+                android:background="@drawable/bg_gradient_auth">
+                
+                <ImageView
+                    android:id="@+id/btn_edit_profile_icon"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_margin="12dp"
+                    android:layout_gravity="top|end"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:padding="12dp"
+                    android:src="@drawable/ic_edit"
+                    app:tint="@color/white"
+                    android:contentDescription="Edit Profile" />
 
-                <!-- Avatar placeholder -->
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/iv_avatar"
-                    android:layout_width="96dp"
-                    android:layout_height="96dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_calendar_month"
-                    android:background="@color/white"
-                    android:padding="20dp"
-                    app:shapeAppearanceOverlay="@style/ShapeAppearance.App.CircleImageView" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingTop="32dp"
+                    android:paddingBottom="72dp"
+                    android:paddingHorizontal="24dp">
+
+                    <!-- Avatar placeholder -->
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/iv_avatar"
+                        android:layout_width="96dp"
+                        android:layout_height="96dp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/ic_nav_profile"
+                        android:background="@color/white_translucent"
+                        android:padding="20dp"
+                        app:strokeWidth="2dp"
+                        app:strokeColor="@color/white_translucent"
+                        app:shapeAppearanceOverlay="@style/ShapeAppearance.App.CircleImageView" />
 
                 <TextView
                     android:id="@+id/tv_profile_name"
@@ -144,7 +162,8 @@
                     android:textColor="@color/white"
                     style="?attr/materialButtonOutlinedStyle" />
 
-            </LinearLayout>
+                </LinearLayout>
+            </FrameLayout>
 
             <!-- ── Stats Card ─────────────────────────────────────────────── -->
             <com.google.android.material.card.MaterialCardView
@@ -170,6 +189,12 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:orientation="vertical">
+                        <ImageView
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:src="@drawable/ic_blood_drop"
+                            app:tint="@color/blood_red"
+                            android:layout_marginBottom="4dp" />
                         <TextView
                             android:id="@+id/tv_stat1_value"
                             android:layout_width="wrap_content"
@@ -198,6 +223,12 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:orientation="vertical">
+                        <ImageView
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:src="@drawable/ic_star"
+                            app:tint="@color/blood_red"
+                            android:layout_marginBottom="4dp" />
                         <TextView
                             android:id="@+id/tv_stat2_value"
                             android:layout_width="wrap_content"
@@ -226,6 +257,10 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:orientation="vertical">
+                        <Space
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:layout_marginBottom="4dp" />
                         <TextView
                             android:id="@+id/tv_stat3_value"
                             android:layout_width="wrap_content"
@@ -341,8 +376,10 @@
                                 android:layout_marginEnd="16dp">
                                 <ImageView
                                     android:id="@+id/iv_badge_bronze"
-                                    android:layout_width="48dp"
-                                    android:layout_height="48dp"
+                                    android:layout_width="56dp"
+                                    android:layout_height="56dp"
+                                    android:background="@drawable/bg_icon_surface"
+                                    android:padding="12dp"
                                     android:src="@drawable/ic_star"
                                     app:tint="@color/badge_bronze" /> <!-- Bronze color -->
                                 <TextView
@@ -369,8 +406,10 @@
                                 android:layout_marginEnd="16dp">
                                 <ImageView
                                     android:id="@+id/iv_badge_silver"
-                                    android:layout_width="48dp"
-                                    android:layout_height="48dp"
+                                    android:layout_width="56dp"
+                                    android:layout_height="56dp"
+                                    android:background="@drawable/bg_icon_surface"
+                                    android:padding="12dp"
                                     android:src="@drawable/ic_star_border"
                                     app:tint="@color/badge_silver" /> <!-- Silver color -->
                                 <TextView
@@ -397,8 +436,10 @@
                                 android:gravity="center">
                                 <ImageView
                                     android:id="@+id/iv_badge_gold"
-                                    android:layout_width="48dp"
-                                    android:layout_height="48dp"
+                                    android:layout_width="56dp"
+                                    android:layout_height="56dp"
+                                    android:background="@drawable/bg_icon_surface"
+                                    android:padding="12dp"
                                     android:src="@drawable/ic_star_border"
                                     app:tint="@color/verified_gold" /> <!-- Gold color -->
                                 <TextView
@@ -495,50 +536,36 @@
 
                     <!-- Phone -->
                     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical" android:layout_marginVertical="6dp">
-                        <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_menu_phone" android:tint="@color/blood_red" android:contentDescription="Phone" />
+                        <ImageView android:layout_width="36dp" android:layout_height="36dp" android:src="@drawable/ic_menu_phone" android:background="@drawable/bg_icon_soft_red" android:padding="8dp" app:tint="@color/blood_red" android:contentDescription="Phone" />
                         <TextView android:id="@+id/tv_phone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:textColor="@color/on_surface" android:textSize="14sp" tools:text="+63 912 345 6789" />
                     </LinearLayout>
 
                     <!-- Location -->
                     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical" android:layout_marginVertical="6dp">
-                        <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_map" android:tint="@color/blood_red" android:contentDescription="Location" />
+                        <ImageView android:layout_width="36dp" android:layout_height="36dp" android:src="@drawable/ic_map" android:background="@drawable/bg_icon_soft_red" android:padding="8dp" app:tint="@color/blood_red" android:contentDescription="Location" />
                         <TextView android:id="@+id/tv_city" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:textColor="@color/on_surface" android:textSize="14sp" tools:text="Barobo, Surigao del Sur" />
                     </LinearLayout>
 
                     <!-- Weight (donors only) -->
                     <LinearLayout android:id="@+id/row_weight" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical" android:layout_marginVertical="6dp">
-                        <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_info" android:tint="@color/blood_red" android:contentDescription="Weight" />
+                        <ImageView android:layout_width="36dp" android:layout_height="36dp" android:src="@drawable/ic_info" android:background="@drawable/bg_icon_soft_red" android:padding="8dp" app:tint="@color/blood_red" android:contentDescription="Weight" />
                         <TextView android:id="@+id/tv_weight" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:textColor="@color/on_surface" android:textSize="14sp" tools:text="65 kg" />
                     </LinearLayout>
 
                     <!-- Last donation (donors only) -->
                     <LinearLayout android:id="@+id/row_last_donation" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical" android:layout_marginVertical="6dp">
-                        <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_calendar_month" android:tint="@color/blood_red" android:contentDescription="Last donation" />
+                        <ImageView android:layout_width="36dp" android:layout_height="36dp" android:src="@drawable/ic_calendar_month" android:background="@drawable/bg_icon_soft_red" android:padding="8dp" app:tint="@color/blood_red" android:contentDescription="Last donation" />
                         <TextView android:id="@+id/tv_last_donation" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:textColor="@color/on_surface" android:textSize="14sp" tools:text="Last donated: Jan 15, 2025" />
                     </LinearLayout>
 
                     <!-- Email verification status -->
                     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical" android:layout_marginVertical="6dp">
-                        <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_email" android:tint="@color/blood_red" android:contentDescription="Email" />
+                        <ImageView android:layout_width="36dp" android:layout_height="36dp" android:src="@drawable/ic_email" android:background="@drawable/bg_icon_soft_red" android:padding="8dp" app:tint="@color/blood_red" android:contentDescription="Email" />
                         <TextView android:id="@+id/tv_verification_status" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:textColor="@color/on_surface" android:textSize="14sp" tools:text="✅ Email Verified" />
                     </LinearLayout>
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
-
-            <!-- ── Action Buttons ─────────────────────────────────────────── -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_edit_profile"
-                style="@style/Widget.Material3.Button.OutlinedButton"
-                android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="32dp"
-                android:text="Edit Profile"
-                android:textColor="@color/blood_red"
-                app:strokeColor="@color/blood_red"
-                app:cornerRadius="@dimen/corner_medium" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

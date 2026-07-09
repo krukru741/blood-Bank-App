@@ -14,14 +14,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        android:background="@color/white"
-        app:elevation="4dp">
+        android:background="@drawable/bg_gradient_auth"
+        app:elevation="0dp">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/white"
+            android:background="@android:color/transparent"
             app:contentInsetStart="0dp"
             app:contentInsetStartWithNavigation="0dp">
 
@@ -43,13 +43,13 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@drawable/ic_blood_drop"
-                        app:tint="@color/blood_red" />
+                        app:tint="@color/white" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="BloodBank"
-                        android:textColor="@color/blood_red"
+                        android:textColor="@color/white"
                         android:textSize="20sp"
                         android:textStyle="bold"
                         android:layout_marginStart="8dp" />
@@ -72,15 +72,15 @@
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:src="@drawable/ic_sort"
                         android:visibility="gone"
-                        app:tint="@color/text_hint" />
+                        app:tint="@color/white_translucent" />
 
                     <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/iv_toolbar_avatar"
                         android:layout_width="32dp"
                         android:layout_height="32dp"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/ic_calendar_month"
-                        android:background="@color/stroke_light"
+                        android:src="@drawable/ic_nav_profile"
+                        android:background="@color/surface"
                         app:shapeAppearanceOverlay="@style/ShapeAppearance.App.CircleImageView"
                         android:clickable="true"
                         android:focusable="true"

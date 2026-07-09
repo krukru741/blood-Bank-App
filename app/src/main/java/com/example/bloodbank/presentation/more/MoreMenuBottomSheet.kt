@@ -45,27 +45,6 @@ class MoreMenuBottomSheet : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupClickListeners()
-        loadUserProfile()
-    }
-
-    private fun loadUserProfile() {
-        val uid = authRepository.currentUser?.uid ?: return
-        viewLifecycleOwner.lifecycleScope.launch {
-            userRepository.observeCurrentUser(uid).collect { resource ->
-                if (resource is Resource.Success) {
-                    val user = resource.data
-                    binding.tvMoreName.text = user.displayName
-                    binding.tvMoreEmail.text = user.email
-
-                    if (!user.profilePhotoUrl.isNullOrEmpty()) {
-                        Glide.with(this@MoreMenuBottomSheet)
-                            .load(user.profilePhotoUrl)
-                            .placeholder(android.R.drawable.ic_menu_my_calendar)
-                            .into(binding.ivMoreAvatar)
-                    }
-                }
-            }
-        }
     }
 
     private fun setupClickListeners() {

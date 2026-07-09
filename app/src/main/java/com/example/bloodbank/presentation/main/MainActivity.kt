@@ -107,8 +107,7 @@ class MainActivity : AppCompatActivity() {
 
         // Setup Top App Bar Avatar click listener
         binding.ivToolbarAvatar.setOnClickListener {
-            com.example.bloodbank.presentation.more.MoreMenuBottomSheet()
-                .show(supportFragmentManager, "MoreMenu")
+            navController.navigate(R.id.profileFragment)
         }
 
         // Setup Top App Bar Filter click listener
