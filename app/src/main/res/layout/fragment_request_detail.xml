@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/surface"
+    android:background="@color/surface_variant"
     android:fitsSystemWindows="true">
 
     <androidx.core.widget.NestedScrollView
@@ -23,7 +23,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_profile_header"
+                android:background="@drawable/bg_gradient_auth"
                 android:paddingBottom="44dp"
                 android:paddingTop="16dp">
 
@@ -33,7 +33,6 @@
                     android:layout_height="48dp"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:src="@drawable/ic_arrow_back"
-                    android:rotation="180"
                     app:tint="@color/white"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -79,7 +78,7 @@
                     android:layout_marginEnd="32dp"
                     android:gravity="center"
                     tools:text="📍 Surigao del Sur Provincial Hospital"
-                    android:textColor="@color/surface_variant"
+                    android:textColor="#E0FFFFFF"
                     android:textSize="14sp"
                     app:layout_constraintTop_toBottomOf="@id/tv_patient_name"
                     app:layout_constraintStart_toStartOf="parent"
@@ -107,9 +106,10 @@
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="-24dp"
                 app:cardCornerRadius="@dimen/corner_large"
-                app:cardElevation="6dp"
-                app:strokeWidth="0dp"
-                android:backgroundTint="@color/white">
+                app:cardElevation="4dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="@color/stroke_light"
+                android:backgroundTint="@color/surface">
 
                 <LinearLayout
                     android:layout_width="match_parent"

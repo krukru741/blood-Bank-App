@@ -23,6 +23,7 @@
             android:layout_width="52dp"
             android:layout_height="52dp"
             android:src="@drawable/ic_blood_drop"
+            app:tint="@color/white"
             android:contentDescription="BloodBank logo"
             android:scaleType="fitCenter" />
 
@@ -181,7 +182,7 @@
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                app:cornerRadius="@dimen/corner_medium" />
+                app:cornerRadius="@dimen/corner_large" />
 
             <!-- Back to Login -->
             <LinearLayout
