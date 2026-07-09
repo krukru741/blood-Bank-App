@@ -35,23 +35,23 @@
         }
 
         .marker-pin {
-            width: 30px;
-            height: 30px;
+            width: 22px;
+            height: 22px;
             border-radius: 50% 50% 50% 0;
             position: absolute;
             transform: rotate(-45deg);
             left: 50%;
             top: 50%;
-            margin: -15px 0 0 -15px;
+            margin: -11px 0 0 -11px;
             box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
             border: 2px solid white;
         }
 
         .marker-pin::after {
             content: '';
-            width: 14px;
-            height: 14px;
-            margin: 8px 0 0 8px;
+            width: 10px;
+            height: 10px;
+            margin: 6px 0 0 6px;
             background: white;
             position: absolute;
             border-radius: 50%;
@@ -60,14 +60,14 @@
         /* A little drop inside the white circle */
         .marker-pin-drop {
             position: absolute;
-            width: 6px;
-            height: 6px;
+            width: 4px;
+            height: 4px;
             background: #B71C1C;
             border-radius: 50% 50% 50% 0;
             transform: rotate(-45deg);
             left: 50%;
             top: 50%;
-            margin: -3px 0 0 -3px;
+            margin: -2px 0 0 -2px;
             z-index: 2;
         }
 
@@ -79,7 +79,7 @@
         .donor-pin::after {
             content: "♥️";
             color: white;
-            font-size: 14px;
+            font-size: 10px;
             position: absolute;
             top: 50%;
             left: 50%;
@@ -98,7 +98,7 @@
         .hospital-pin::after {
             content: "✚"; /* White cross */
             color: white;
-            font-size: 16px;
+            font-size: 11px;
             font-weight: bold;
             position: absolute;
             top: 50%;
@@ -355,8 +355,8 @@
             return L.divIcon({
                 className: 'custom-div-icon',
                 html: "<div class='marker-pin " + bgClass + "'></div><div class='marker-pin-drop'></div>",
-                iconSize: [30, 42],
-                iconAnchor: [15, 42]
+                iconSize: [22, 30],
+                iconAnchor: [11, 30]
             });
         }
 
