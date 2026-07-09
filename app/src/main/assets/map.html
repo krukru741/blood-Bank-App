@@ -209,22 +209,22 @@
     <div id="map"></div>
 
     <!-- Map Mode Toggle Button -->
-    <div id="map-mode-btn" onclick="toggleModePanel()">🗺️</div>
+    <div id="map-mode-btn" onclick="toggleModePanel()">📍</div>
 
     <!-- Map Mode Panel -->
     <div id="map-mode-panel">
         <div class="map-mode-option active" id="opt-standard" onclick="switchMode('standard')">
-            <span class="mode-icon">🗺️</span>
+            <span class="mode-icon">📍</span>
             <span>Standard</span>
             <span class="mode-check">✓</span>
         </div>
         <div class="map-mode-option" id="opt-satellite" onclick="switchMode('satellite')">
-            <span class="mode-icon">🛰️</span>
+            <span class="mode-icon">🌍</span>
             <span>Satellite</span>
             <span class="mode-check">✓</span>
         </div>
         <div class="map-mode-option" id="opt-dark" onclick="switchMode('dark')">
-            <span class="mode-icon">🌃</span>
+            <span class="mode-icon">🌙</span>
             <span>Dark</span>
             <span class="mode-check">✓</span>
         </div>
@@ -257,7 +257,7 @@
         };
 
         // Mode icons for the button
-        var modeIcons = { standard: '🗺️', satellite: '🛰️', dark: '🌃' };
+        var modeIcons = { standard: '📍', satellite: '🌍', dark: '🌙' };
 
         // Load saved mode or default to standard
         var currentMode = localStorage.getItem('mapMode') || 'standard';
