@@ -31,6 +31,8 @@ object UserMapper {
             createdAt = dto.createdAt,
             weightKg = dto.weightKg,
             lastDonationDate = dto.lastDonationDate,
+            donorId = dto.donorId,
+            donorVerificationDate = dto.donorVerificationDate,
             hospitalName = dto.hospitalName,
             hospitalAddress = dto.hospitalAddress
         )
@@ -58,6 +60,8 @@ object UserMapper {
             createdAt = domain.createdAt,
             weightKg = domain.weightKg,
             lastDonationDate = domain.lastDonationDate,
+            donorId = domain.donorId,
+            donorVerificationDate = domain.donorVerificationDate,
             hospitalName = domain.hospitalName,
             hospitalAddress = domain.hospitalAddress
         )

@@ -7,7 +7,10 @@ data class HospitalMarker(
     val latitude: Double = 0.0,
     val longitude: Double = 0.0,
     val contactNumber: String? = null,
-    val imageUrl: String? = null
+    val imageUrl: String? = null,
+    val city: String? = null,
+    val emergencyContact: String? = null,
+    val type: String? = null
 )
 
 object MockHospitalData {

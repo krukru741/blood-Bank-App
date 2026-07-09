@@ -326,6 +326,15 @@
             }
         });
 
+        // Get coordinates automatically when user drags the map
+        map.on('moveend', function() {
+            if (!pickerMode) return;
+            var center = map.getCenter();
+            if (window.Android && window.Android.onLocationPicked) {
+                window.Android.onLocationPicked(center.lat, center.lng);
+            }
+        });
+
         // ── Markers ─────────────────────────────────────────────────────
         var markers = [];
 

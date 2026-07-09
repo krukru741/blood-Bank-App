@@ -296,72 +296,70 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_province"
                     style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:layout_marginEnd="6dp"
                     android:hint="Probinsya"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/til_city"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/layout_psgc_error">
                     <AutoCompleteTextView
                         android:id="@+id/et_province"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="16sp"
-                        android:inputType="none"
+                        android:inputType="text"
                         android:maxLines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_city"
                     style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="6dp"
+                    android:layout_marginTop="12dp"
                     android:hint="Siyudad"
-                    app:layout_constraintStart_toEndOf="@id/til_province"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/til_province">
+                    app:layout_constraintTop_toBottomOf="@id/til_province">
                     <AutoCompleteTextView
                         android:id="@+id/et_city"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="16sp"
-                        android:inputType="none"
+                        android:inputType="text"
                         android:maxLines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_barangay"
                     style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:layout_marginEnd="6dp"
                     android:hint="Barangay"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/til_street"
-                    app:layout_constraintTop_toBottomOf="@id/til_province">
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/til_city">
                     <AutoCompleteTextView
                         android:id="@+id/et_barangay"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="16sp"
-                        android:inputType="none"
+                        android:inputType="text"
                         android:maxLines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_street"
                     style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="6dp"
+                    android:layout_marginTop="12dp"
                     android:hint="Street (Opsiyonal)"
-                    app:layout_constraintStart_toEndOf="@id/til_barangay"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/til_barangay">
+                    app:layout_constraintTop_toBottomOf="@id/til_barangay">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/et_street"
                         android:layout_width="match_parent"
@@ -491,7 +489,7 @@
             android:layout_height="48dp"
             android:layout_gravity="center"
             android:layout_marginBottom="24dp"
-            android:src="@drawable/ic_nav_requests"
+            android:src="@drawable/ic_location_on"
             app:tint="@color/blood_red" />
             
         <com.google.android.material.button.MaterialButton

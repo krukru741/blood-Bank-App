@@ -27,6 +27,8 @@ data class UserDto(
     // Donor specific
     val weightKg: Float? = null,
     val lastDonationDate: Long? = null,
+    val donorId: String = "",
+    val donorVerificationDate: Long? = null,
     
     // Recipient specific
     val hospitalName: String = "",

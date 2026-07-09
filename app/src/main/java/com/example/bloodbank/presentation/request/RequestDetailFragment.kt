@@ -73,6 +73,22 @@ class RequestDetailFragment : Fragment() {
         binding.tvBloodType.text = request.bloodType.label
         binding.tvPatientName.text = request.requesterName
         binding.tvHospital.text = "📍 ${request.hospital}"
+        
+        binding.btnGetDirections.setOnClickListener {
+            if (request.latitude != null && request.longitude != null) {
+                val gmmIntentUri = android.net.Uri.parse("google.navigation:q=${request.latitude},${request.longitude}")
+                val mapIntent = android.content.Intent(android.content.Intent.ACTION_VIEW, gmmIntentUri)
+                mapIntent.setPackage("com.google.android.apps.maps")
+                if (mapIntent.resolveActivity(requireActivity().packageManager) != null) {
+                    startActivity(mapIntent)
+                } else {
+                    Toast.makeText(requireContext(), "Google Maps app not found", Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                Toast.makeText(requireContext(), "Location not available", Toast.LENGTH_SHORT).show()
+            }
+        }
+        
         binding.tvDescription.text = request.description
         binding.tvUnits.text = "${request.unitsNeeded} Units"
         
@@ -100,13 +116,43 @@ class RequestDetailFragment : Fragment() {
         // UI Logic for Donor vs Recipient Response
         binding.btnAcceptRequest.visibility = View.GONE
         binding.layoutContactDonor.visibility = View.GONE
+        binding.tvMismatchWarning.visibility = View.GONE
+        binding.btnShareRequest.visibility = View.GONE
         
         when (request.status) {
             RequestStatus.PENDING -> {
                 if (!isOwner) {
-                    binding.btnAcceptRequest.visibility = View.VISIBLE
-                    binding.btnAcceptRequest.setOnClickListener {
-                        showAcceptConfirmationDialog(request)
+                    val currentState = viewModel.uiState.value
+                    val currentUser = if (currentState is RequestDetailUiState.Success) currentState.currentUser else null
+                    
+                    val isMatch = if (currentUser != null) {
+                        com.example.bloodbank.domain.util.BloodCompatibility.isMatch(currentUser.bloodType, request.bloodType)
+                    } else {
+                        false
+                    }
+
+                    if (isMatch) {
+                        binding.btnAcceptRequest.visibility = View.VISIBLE
+                        binding.btnAcceptRequest.setOnClickListener {
+                            showAcceptConfirmationDialog(request)
+                        }
+                    } else {
+                        binding.tvMismatchWarning.visibility = View.VISIBLE
+                        val donorTypeLabel = currentUser?.bloodType?.label ?: "Unknown"
+                        binding.tvMismatchWarning.text = "⚠️ Your blood type ($donorTypeLabel) does not match this patient."
+                        
+                        binding.btnShareRequest.visibility = View.VISIBLE
+                        binding.btnShareRequest.text = "📢 SHARE THIS REQUEST"
+                        binding.btnShareRequest.setOnClickListener {
+                            shareRequest(request)
+                        }
+                    }
+                } else {
+                    // Owner can share their own request
+                    binding.btnShareRequest.visibility = View.VISIBLE
+                    binding.btnShareRequest.text = "📢 SHARE YOUR REQUEST"
+                    binding.btnShareRequest.setOnClickListener {
+                        shareRequest(request)
                     }
                 }
             }
@@ -159,6 +205,17 @@ class RequestDetailFragment : Fragment() {
             }
             .setNegativeButton("Cancel", null)
             .show()
+    }
+
+    private fun shareRequest(request: BloodRequest) {
+        val shareText = "URGENT: ${request.requesterName} needs ${request.unitsNeeded} units of ${request.bloodType.label} blood at ${request.hospital}. Please download the BloodBank app to help!"
+        val sendIntent: Intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, shareText)
+            type = "text/plain"
+        }
+        val shareIntent = Intent.createChooser(sendIntent, "Share Request")
+        startActivity(shareIntent)
     }
 
     override fun onDestroyView() {

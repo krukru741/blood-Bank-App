@@ -138,12 +138,12 @@
         android:id="@+id/card_request_popup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
+        android:layout_marginHorizontal="20dp"
         android:layout_marginBottom="90dp"
-        app:cardCornerRadius="@dimen/corner_large"
-        app:strokeColor="@color/stroke_light"
+        app:cardCornerRadius="@dimen/corner_xl"
+        app:strokeColor="@color/divider_light"
         app:strokeWidth="1dp"
-        app:cardElevation="8dp"
+        app:cardElevation="12dp"
         app:cardBackgroundColor="@color/surface"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent">
@@ -157,7 +157,7 @@
             <ImageView
                 android:id="@+id/iv_popup_banner"
                 android:layout_width="match_parent"
-                android:layout_height="140dp"
+                android:layout_height="120dp"
                 android:scaleType="centerCrop"
                 android:visibility="gone" />
 
@@ -166,24 +166,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:padding="20dp">
 
                 <!-- Header: Avatar, Name, Role, Close -->
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp">
 
                     <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/iv_popup_avatar"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
                         android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
                         android:src="@drawable/ic_nav_profile"
                         app:shapeAppearanceOverlay="@style/ShapeAppearance.App.CircleImageView"
                         android:scaleType="centerCrop"
-                        android:background="@color/divider_light"
-                        android:padding="4dp" />
+                        android:background="@color/surface_variant"
+                        android:padding="6dp" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -198,37 +199,32 @@
                             android:id="@+id/tv_popup_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Name"
+                            tools:text="Maria Santos"
                             android:textStyle="bold"
                             android:textSize="18sp"
+                            android:maxLines="1"
+                            android:ellipsize="end"
                             android:textColor="@color/on_surface" />
 
                         <TextView
                             android:id="@+id/tv_popup_role"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Blood Recipient"
+                            tools:text="Blood Recipient"
                             android:textSize="13sp"
                             android:textColor="@color/gray_text" />
                     </LinearLayout>
 
                     <ImageButton
                         android:id="@+id/btn_popup_close"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
                         android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
+                        android:layout_alignParentTop="true"
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:src="@drawable/ic_close"
                         app:tint="@color/icon_gray" />
                 </RelativeLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/divider_light"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginBottom="12dp" />
 
                 <!-- Blood Type (For Requests) -->
                 <LinearLayout
@@ -237,23 +233,28 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:gravity="center_vertical"
-                    android:layout_marginBottom="8dp">
-
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_blood_drop"
-                        app:tint="@color/blood_red" />
+                    android:layout_marginBottom="12dp">
 
                     <TextView
                         android:id="@+id/tv_popup_blood_type"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        tools:text="O+"
+                        android:gravity="center"
+                        android:background="@drawable/bg_blood_type_badge"
+                        android:backgroundTint="@color/blood_red"
+                        android:textStyle="bold"
+                        android:textSize="14sp"
+                        android:textColor="@color/white" />
+
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
-                        android:text="AB+"
+                        android:text="Blood Type Needed"
                         android:textStyle="bold"
-                        android:textSize="22sp"
-                        android:textColor="@color/on_surface" />
+                        android:textSize="14sp"
+                        android:textColor="@color/blood_red" />
                 </LinearLayout>
 
                 <!-- Location -->
@@ -267,18 +268,17 @@
                     <ImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:src="@drawable/ic_my_location"
-                        app:tint="@color/icon_gray"
-                        android:layout_marginStart="2dp" />
+                        android:src="@drawable/ic_location_on"
+                        app:tint="@color/gray_text" />
 
                     <TextView
                         android:id="@+id/tv_popup_location"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="14dp"
-                        android:text="Location Address"
-                        android:textSize="14sp"
-                        android:textColor="@color/text_hint" />
+                        android:layout_marginStart="8dp"
+                        tools:text="Surigao del Sur Provincial Hospital"
+                        android:textSize="13sp"
+                        android:textColor="@color/on_surface_variant" />
                 </LinearLayout>
                 
                 <!-- Distance (For Hospitals) -->
@@ -295,16 +295,15 @@
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:src="@drawable/ic_directions"
-                        app:tint="@color/info_blue_light"
-                        android:layout_marginStart="2dp" />
+                        app:tint="@color/info_blue_light" />
 
                     <TextView
                         android:id="@+id/tv_popup_distance"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="14dp"
-                        android:text="5.2 km away"
-                        android:textSize="14sp"
+                        android:layout_marginStart="8dp"
+                        tools:text="5.2 km away"
+                        android:textSize="13sp"
                         android:textStyle="bold"
                         android:textColor="@color/info_blue_light" />
                 </LinearLayout>
@@ -317,36 +316,44 @@
                     android:orientation="horizontal"
                     android:gravity="center_vertical"
                     android:visibility="gone"
-                    android:layout_marginBottom="16dp">
+                    android:layout_marginBottom="12dp">
 
                     <ImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:src="@drawable/ic_menu_phone"
-                        app:tint="@color/green_light"
-                        android:layout_marginStart="2dp" />
+                        app:tint="@color/success_green" />
 
                     <TextView
                         android:id="@+id/tv_popup_contact"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="14dp"
-                        android:text="0917 123 4567"
-                        android:textSize="14sp"
-                        android:textColor="@color/green_light" />
+                        android:layout_marginStart="8dp"
+                        tools:text="0917 123 4567"
+                        android:textSize="13sp"
+                        android:textColor="@color/success_green" />
                 </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/divider_light"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="16dp" />
 
                 <!-- Action Button -->
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_popup_action"
+                    style="@style/Widget.Material3.Button"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Message"
+                    android:layout_height="52dp"
+                    android:text="View Details"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
                     android:backgroundTint="@color/blood_red"
-                    app:cornerRadius="@dimen/corner_small"
-                    android:layout_marginTop="4dp"
+                    app:cornerRadius="@dimen/corner_large"
                     android:textColor="@color/white"
-                    app:icon="@drawable/ic_chat"
+                    app:icon="@drawable/ic_nav_requests"
                     app:iconGravity="textStart"
                     app:iconTint="@color/white" />
 

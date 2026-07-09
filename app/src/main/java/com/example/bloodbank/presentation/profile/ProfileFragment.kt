@@ -68,7 +68,7 @@ class ProfileFragment : Fragment() {
     // ── Listeners ──────────────────────────────────────────────────────────────
 
     private fun setupListeners() {
-        binding.btnEditProfile.setOnClickListener {
+        binding.btnEditProfileIcon.setOnClickListener {
             findNavController().navigate(R.id.action_profile_to_edit_profile)
         }
         binding.btnCompleteProfile.setOnClickListener {

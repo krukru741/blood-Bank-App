@@ -16,7 +16,7 @@ import com.example.bloodbank.databinding.FragmentMyRequestsBinding
 import com.example.bloodbank.domain.model.Resource
 import com.example.bloodbank.domain.repository.AuthRepository
 import com.example.bloodbank.domain.repository.BloodRequestRepository
-import com.example.bloodbank.presentation.home.BloodRequestAdapter
+import com.example.bloodbank.presentation.request.MyRequestsAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -25,7 +25,7 @@ import javax.inject.Inject
  * MyRequestsFragment
  *
  * Shows blood requests created by the currently logged-in user.
- * Reuses [BloodRequestAdapter] for the list.
+ * Reuses [MyRequestsAdapter] for the list.
  */
 @AndroidEntryPoint
 class MyRequestsFragment : Fragment() {
@@ -36,7 +36,7 @@ class MyRequestsFragment : Fragment() {
     @Inject lateinit var bloodRequestRepository: BloodRequestRepository
     @Inject lateinit var authRepository: AuthRepository
 
-    private lateinit var adapter: BloodRequestAdapter
+    private lateinit var adapter: MyRequestsAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,8 +50,8 @@ class MyRequestsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = BloodRequestAdapter(
-            onRespondClick = { request ->
+        adapter = MyRequestsAdapter(
+            onViewDetailsClick = { request ->
                 val bundle = Bundle().apply {
                     putString("requestId", request.requestId)
                 }

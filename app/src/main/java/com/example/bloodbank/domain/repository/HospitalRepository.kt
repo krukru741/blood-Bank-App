@@ -7,4 +7,5 @@ import kotlinx.coroutines.flow.Flow
 interface HospitalRepository {
     fun getHospitals(): Flow<Resource<List<HospitalMarker>>>
     suspend fun seedHospitals(hospitals: List<HospitalMarker>): Resource<Unit>
+    suspend fun addHospital(hospital: HospitalMarker): Resource<Unit>
 }

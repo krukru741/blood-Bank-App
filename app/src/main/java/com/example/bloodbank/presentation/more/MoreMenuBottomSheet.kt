@@ -48,10 +48,9 @@ class MoreMenuBottomSheet : BottomSheetDialogFragment() {
     }
 
     private fun setupClickListeners() {
-        // 1. Hospital Partners / Find a Hospital
+        // 1. Hospital Partners / Find a Hospital (Directory)
         binding.rowHospitals.setOnClickListener {
-            val bundle = Bundle().apply { putString("initialFilter", "HOSPITALS") }
-            navigateTo(R.id.homeFragment, bundle)
+            navigateTo(R.id.hospitalsListFragment)
         }
 
         // 2. My Certificates & Badges

@@ -300,7 +300,7 @@ class HomeFragment : Fragment() {
 
             btnPopupAction.text = "Get Directions"
             btnPopupAction.setOnClickListener {
-                val gmmIntentUri = android.net.Uri.parse("geo:0,0?q=${android.net.Uri.encode(hospital.name)}")
+                val gmmIntentUri = android.net.Uri.parse("google.navigation:q=${hospital.latitude},${hospital.longitude}")
                 val mapIntent = android.content.Intent(android.content.Intent.ACTION_VIEW, gmmIntentUri)
                 mapIntent.setPackage("com.google.android.apps.maps")
                 if (mapIntent.resolveActivity(requireActivity().packageManager) != null) {
@@ -338,7 +338,7 @@ class HomeFragment : Fragment() {
             tvPopupLocation.text = request.location
             
             val firstName = request.requesterName.split(" ").firstOrNull() ?: request.requesterName
-            btnPopupAction.text = "Message $firstName"
+            btnPopupAction.text = "View Details"
 
             btnPopupAction.setOnClickListener {
                 cardRequestPopup.isVisible = false

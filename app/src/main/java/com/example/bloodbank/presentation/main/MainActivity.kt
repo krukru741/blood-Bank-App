@@ -107,7 +107,7 @@ class MainActivity : AppCompatActivity() {
 
         // Setup Top App Bar Avatar click listener
         binding.ivToolbarAvatar.setOnClickListener {
-            navController.navigate(R.id.profileFragment)
+            binding.bottomNav.selectedItemId = R.id.profileFragment
         }
 
         // Setup Top App Bar Filter click listener

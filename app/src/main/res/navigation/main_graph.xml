@@ -185,4 +185,25 @@
         android:label="My Donor Card"
         tools:layout="@layout/fragment_donor_card" />
 
+    <!-- ── Hospital Directory ────────────────────────────────────────────── -->
+    <fragment
+        android:id="@+id/hospitalsListFragment"
+        android:name="com.example.bloodbank.presentation.hospital.HospitalsListFragment"
+        android:label="Hospital Directory"
+        tools:layout="@layout/fragment_hospitals_list">
+        <action
+            android:id="@+id/action_hospitalsListFragment_to_addHospitalFragment"
+            app:destination="@id/addHospitalFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addHospitalFragment"
+        android:name="com.example.bloodbank.presentation.hospital.AddHospitalFragment"
+        android:label="Add Hospital"
+        tools:layout="@layout/fragment_add_hospital" />
+
 </navigation>

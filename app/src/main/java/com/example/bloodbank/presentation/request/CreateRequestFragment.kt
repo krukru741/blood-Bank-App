@@ -290,11 +290,31 @@ class CreateRequestFragment : Fragment() {
     }
 
     private fun fillLocationFields(address: android.location.Address) {
-        binding.etProvince.setText(address.adminArea ?: "", false)
-        binding.etCity.setText(address.locality ?: address.subAdminArea ?: "", false)
-        binding.etBarangay.setText(address.subLocality ?: "", false)
-        val street = listOfNotNull(address.thoroughfare, address.subThoroughfare).joinToString(" ")
+        val admin = address.adminArea ?: ""
+        val subAdmin = address.subAdminArea ?: ""
+        val locality = address.locality ?: ""
+        val subLocality = address.subLocality ?: ""
+        
+        // In the Philippines: 
+        // adminArea = Region (e.g. Caraga)
+        // subAdminArea = Province (e.g. Surigao del Sur)
+        // locality = City/Municipality
+        // subLocality = Barangay
+        
+        val province = subAdmin.ifEmpty { admin }
+        val city = locality.ifEmpty { if (subAdmin.isNotEmpty() && subAdmin != province) subAdmin else "" }
+        val barangay = subLocality.ifEmpty { address.featureName?.let { if (!it.any { c -> c.isDigit() }) it else "" } ?: "" }
+        
+        binding.etProvince.setText(province, false)
+        binding.etCity.setText(city, false)
+        binding.etBarangay.setText(barangay, false)
+        
+        var street = listOfNotNull(address.thoroughfare, address.subThoroughfare).joinToString(" ")
+        if (street.isEmpty() && address.featureName != barangay) {
+            street = address.featureName ?: ""
+        }
         binding.etStreet.setText(street)
+        
         binding.coordinatorCreateRequest.showSuccessSnackbar("Address auto-filled!")
     }
 
@@ -401,8 +421,8 @@ class CreateRequestFragment : Fragment() {
     }
 
     private fun selectedUrgency(): UrgencyLevel = when {
-        binding.chipCritical.isChecked -> UrgencyLevel.CRITICAL
-        binding.chipUrgent.isChecked   -> UrgencyLevel.URGENT
+        binding.btnUrgencyCritical.isChecked -> UrgencyLevel.CRITICAL
+        binding.btnUrgencyUrgent.isChecked   -> UrgencyLevel.URGENT
         else                           -> UrgencyLevel.NORMAL
     }
 
@@ -417,9 +437,9 @@ class CreateRequestFragment : Fragment() {
             etStreet.isEnabled          = enabled
             etContact.isEnabled         = enabled
             etNotes.isEnabled           = enabled
-            chipNormal.isEnabled        = enabled
-            chipUrgent.isEnabled        = enabled
-            chipCritical.isEnabled      = enabled
+            btnUrgencyNormal.isEnabled        = enabled
+            btnUrgencyUrgent.isEnabled        = enabled
+            btnUrgencyCritical.isEnabled      = enabled
             btnNext.isEnabled           = enabled
             btnBack.isEnabled           = enabled
             btnUseLocation.isEnabled    = enabled

@@ -67,4 +67,19 @@ class HospitalRepositoryImpl @Inject constructor(
             Resource.Error(com.example.bloodbank.domain.error.AppError.Unknown(e.message ?: "Seeding failed"))
         }
     }
+
+    override suspend fun addHospital(hospital: HospitalMarker): Resource<Unit> {
+        return try {
+            val docRef = if (hospital.id.isNotEmpty()) {
+                collection.document(hospital.id)
+            } else {
+                collection.document()
+            }
+            val newHospital = hospital.copy(id = docRef.id)
+            docRef.set(newHospital).await()
+            Resource.Success(Unit)
+        } catch (e: Exception) {
+            Resource.Error(com.example.bloodbank.domain.error.AppError.Unknown(e.message ?: "Failed to add hospital"))
+        }
+    }
 }

@@ -82,9 +82,9 @@ class EditRequestFragment : Fragment() {
         binding.etNotes.setText(request.description)
 
         when (request.urgency) {
-            UrgencyLevel.NORMAL -> binding.chipNormal.isChecked = true
-            UrgencyLevel.URGENT -> binding.chipUrgent.isChecked = true
-            UrgencyLevel.CRITICAL -> binding.chipCritical.isChecked = true
+            UrgencyLevel.NORMAL -> binding.btnUrgencyNormal.isChecked = true
+            UrgencyLevel.URGENT -> binding.btnUrgencyUrgent.isChecked = true
+            UrgencyLevel.CRITICAL -> binding.btnUrgencyCritical.isChecked = true
         }
     }
 
@@ -104,8 +104,8 @@ class EditRequestFragment : Fragment() {
     }
 
     private fun selectedUrgency(): UrgencyLevel = when {
-        binding.chipCritical.isChecked -> UrgencyLevel.CRITICAL
-        binding.chipUrgent.isChecked -> UrgencyLevel.URGENT
+        binding.btnUrgencyCritical.isChecked -> UrgencyLevel.CRITICAL
+        binding.btnUrgencyUrgent.isChecked -> UrgencyLevel.URGENT
         else -> UrgencyLevel.NORMAL
     }
 
