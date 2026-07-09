@@ -9,6 +9,11 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+    
+    <!-- Leaflet MarkerCluster CSS & JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
+    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
     <style>
         body {
             padding: 0;
@@ -336,7 +341,11 @@
         });
 
         // ── Markers ─────────────────────────────────────────────────────
-        var markers = [];
+        var markersGroup = L.markerClusterGroup({
+            disableClusteringAtZoom: 16,
+            maxClusterRadius: 45
+        });
+        map.addLayer(markersGroup);
 
         function createIcon(type) {
             var bgClass = 'recipient-pin';
@@ -352,20 +361,21 @@
         }
 
         function updateMarkers(data) {
-            markers.forEach(function(m) { map.removeLayer(m); });
-            markers = [];
+            markersGroup.clearLayers();
             try {
                 // Accept both JSON string and JS array/object
                 var items = (typeof data === 'string') ? JSON.parse(data) : data;
+                var newMarkers = [];
                 items.forEach(function(item) {
                     if (item.lat && item.lng) {
-                        var marker = L.marker([item.lat, item.lng], { icon: createIcon(item.type) }).addTo(map);
+                        var marker = L.marker([item.lat, item.lng], { icon: createIcon(item.type) });
                         marker.on('click', function() {
                             if (window.Android) { window.Android.onMarkerClick(item.id); }
                         });
-                        markers.push(marker);
+                        newMarkers.push(marker);
                     }
                 });
+                markersGroup.addLayers(newMarkers);
             } catch (e) {
                 console.error("Error parsing markers", e);
             }
@@ -377,8 +387,7 @@
 
         function enablePickerMode() {
             pickerMode = true;
-            markers.forEach(function(m) { map.removeLayer(m); });
-            markers = [];
+            markersGroup.clearLayers();
         }
     </script>
 </body>
